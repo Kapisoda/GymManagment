@@ -28,8 +28,8 @@
       </div>
       <div class="col s4">
         <h5>Statistika</h5>
-      <!--  <pie-chart :data="chartData" :donut="true"></pie-chart>
-        <pie-chart :data="chartDataUser" :donut="true"></pie-chart> -->
+       <pie-chart :data="chartData" :donut="true"></pie-chart>
+        <pie-chart :data="chartDataUser" :donut="true"></pie-chart> 
       </div>
       <div class="col s4">
         <h5>Dolasci</h5>

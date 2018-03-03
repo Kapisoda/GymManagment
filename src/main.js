@@ -6,6 +6,11 @@ import router from './router'
 import VModal from 'vue-js-modal'
 import lodash from 'lodash'
 import vSelect from 'vue-select'
+import Chartkick from 'chartkick'
+import VueChartkick from 'vue-chartkick'
+import Chart from 'chart.js'
+
+Vue.use(VueChartkick, { Chartkick })
 
 
 Vue.component('v-select', vSelect)
