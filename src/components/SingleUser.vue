@@ -221,17 +221,19 @@ export default {
         groups: false
       },
       flagToChangeUser: false,
-      time: ''
+      time: '',
+      doc: ''
     }
   },
   methods:{
     changeHandler(){
-      var vm = this;
-      window.removeEventListener('keyup', function(event) {
+      document.removeEventListener('keyup', this.foo);
+    },
+    foo(event){
+        var vm = this;
         if (event.keyCode == 13) {
           vm.confirmArrival();
         }
-      });
     },
     confirmArrival(){
       //chosenMembershipthis.errorsArray=[];
@@ -239,11 +241,11 @@ export default {
       if(!this.object.user.last_name) this.errorsArray.push("Potrebo je upisati prezime korisnika.");
       if(!this.object.user.code) this.errorsArray.push("Potrebo je zapisati korisnikovu karticu.");
       if(!this.statusSelect) this.errorsArray.push("Potrebo je odabrati aktivnost korisnika.");
-      if(this.statusSelect == 'pause'){
+      /*if(this.statusSelect == 'pause'){
         this.object.user.status = 'active';
         this.flagToChangeUser = true;
         this.changeUser();
-        }
+      }*/
       if(!this.membershipOption || this.membershipOption.length == 0) this.errorsArray.push("Potrebo je odabrati članarinu korisnika.");
       if(!this.groupOption || this.groupOption.length == 0) this.errorsArray.push("Potrebo je odabrati grupu korisnika.");
       if(this.errorsArray.length == 0){
@@ -287,7 +289,7 @@ export default {
       if(this.errorsArray.length == 0){
       var self = this;
 
-      if(!this.flagToChangeUser){
+      //if(!this.flagToChangeUser){
         if(this.statusSelect){
           this.object.user.status= this.statusSelect.value;
           if(this.statusSelect.value=='pause'){
@@ -296,7 +298,7 @@ export default {
             this.object.user.membership_pause_at ='';
           }
         }
-      }
+      //}
       if(this.genderSelect){
         this.object.user.sex= this.genderSelect.value;
       }
@@ -321,9 +323,9 @@ export default {
           this.error = true;
         }
       }).then(data => { if(data.status=='401')session.sessionDestroy();
-      if(!this.flagToChangeUser){
+      //if(!this.flagToChangeUser){
       location.reload();
-      }
+      //}
       });
       //this.disabled=  true;
 
@@ -425,22 +427,17 @@ export default {
 
   },
   destroyed(){
-    this.changeHandler();
+    document.removeEventListener('keyup', this.foo);
   },
   mounted(){
-    var vm = this;
-
-      window.addEventListener('keyup', function(event) {
-        if (event.keyCode == 13) {
-          vm.confirmArrival();
-        }
-      });
+    document.addEventListener('keyup',  this.foo);
   },
   components:{
     Loader
   }
 
 }
+
 </script>
 
 
