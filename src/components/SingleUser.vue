@@ -36,7 +36,7 @@
         </div>
         <div class="row">
             <p style="text-align: center"><b style="color: gray;">Članarine: </b></p>
-            <h4 style="text-align: center"><b>{{stringOfGroups}}</b></h4>
+            <h4 style="text-align: center"><b>{{stringOfMemberships}}</b></h4>
         </div>
         <div class="row">
           <p style="text-align: center"><b style="color: gray;">Članarina vrijedi do: </b></p>
