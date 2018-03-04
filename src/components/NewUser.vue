@@ -16,21 +16,21 @@
       <div class="row">
         <div class="input-field col s6">
           <input type="text" class="validate" v-model="newUserObject.user.first_name">
-          <label class="active" for="Ime">Ime</label>
+          <label  for="Ime">Ime</label>
         </div>
         <div class="input-field col s6">
           <input id="Prezime" type="text" class="validate" v-model="newUserObject.user.last_name">
-          <label class="active" for="Prezime">Prezime</label>
+          <label for="Prezime">Prezime</label>
         </div>
       </div>
       <div class="row">
         <div class="input-field col s6">
           <input id="Address" type="text" class="validate" v-model="newUserObject.user.address">
-          <label class="active" for="Address">Adresa</label>
+          <label  for="Address">Adresa</label>
         </div>
         <div class="input-field col s6">
           <input id="OIB" type="text" class="validate" v-model="newUserObject.user.OIB">
-          <label class="active" for="OIB">OIB</label>
+          <label for="OIB">OIB</label>
         </div>
       </div>
       <div class="row">
@@ -40,13 +40,13 @@
         </div>
         <div class="input-field col s6">
           <input id="cardNumber" type="text" class="validate" v-model="newUserObject.user.code">
-          <label class="active" for="cardNumber">Broj kartice</label>
+          <label for="cardNumber">Broj kartice</label>
         </div>
       </div>
       <div class="row">
         <div class="input-field col s6">
           <input id="Email" type="text" class="validate" v-model="newUserObject.user.email">
-          <label class="active" for="Email">Email</label>
+          <label for="Email">Email</label>
         </div>
         <div class="input-field col s6">
           <label class="active" for="aktivnost">Aktivnost</label>
@@ -58,7 +58,7 @@
       <div class="row">
         <div class="input-field col s6">
           <input id="phoneNumber" type="text" class="validate" v-model="newUserObject.user.phone_number">
-          <label class="active" for="phoneNumber">Tel</label>
+          <label  for="phoneNumber">Tel</label>
         </div>
         <div class="input-field col s6">
           <label class="active" for="gender">Spol</label>

@@ -5,7 +5,7 @@
       <div class="row">
         <div class="input-field col s12">
           <input id="name" type="text" class="validate" v-model="object.group.name">
-          <label class="active" for="name">Naziv Grupe</label>
+          <label for="name">Naziv Grupe</label>
         </div>
       </div>
     </form>

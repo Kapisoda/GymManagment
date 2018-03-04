@@ -9,7 +9,8 @@ import vSelect from 'vue-select'
 import Chartkick from 'chartkick'
 import VueChartkick from 'vue-chartkick'
 import Chart from 'chart.js'
-
+import jQuery from 'jquery'
+import 'materialize-css'
 Vue.use(VueChartkick, { Chartkick })
 
 
