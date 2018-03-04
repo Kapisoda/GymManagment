@@ -17,13 +17,13 @@
           <div class="row">
             <div class="input-field col s12">
               <input id="username" type="text" class="validate" v-model="object.admin.username">
-              <label for="username">Korisničko ime</label>
+              <label class="active" for="username">Korisničko ime</label>
             </div>
           </div>
           <div class="row">
             <div class="input-field col s12">
               <input id="password" type="password" class="validate" v-model="object.admin.password">
-              <label for="password">Lozinka</label>
+              <label class="active" for="password">Lozinka</label>
             </div>
           </div>
           <center>
@@ -78,7 +78,7 @@ export default {
         if(data.notice){
           this.errorLogin = data.notice.detail;
         }else{ //if (!this.error)
-          
+
           session.setSession(data.admin.username, data.admin.auth_token);
           //window.sessionStorage.setItem('token', data.admin.auth_token);
           this.$router.push({ path: '/home'});
