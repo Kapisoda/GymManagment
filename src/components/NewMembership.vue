@@ -5,13 +5,13 @@
       <div class="row">
         <div class="input-field col s12">
           <input id="name" type="text" class="validate" v-model="object.membership_type.name">
-          <label for="name">Naziv članarine</label>
+          <label class="active" for="name">Naziv članarine</label>
         </div>
       </div>
       <div class="row">
         <div class="input-field col s12">
           <input id="max_week_attendance_restriction" type="text" class="validate" v-model="object.membership_type.max_week_attendance_restriction">
-          <label for="max_week_attendance_restriction">Broj dolazaka</label>
+          <label class="active" for="max_week_attendance_restriction">Broj dolazaka</label>
         </div>
       </div>
       <div class="row">

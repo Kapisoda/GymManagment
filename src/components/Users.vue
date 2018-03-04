@@ -105,7 +105,6 @@
   import SingleUser from './SingleUser.vue'
   import session from '../Session.js'
 
-
   export default {
 
     name: 'users',
