@@ -148,12 +148,22 @@
       </div>
     </div>
     <div v-else>
+      <div class="row">
       <div class="input-field col s6">
           <button v-on:click="changeUser" class="buttonClass waves-effect waves-light btn">Potvrdi promjenu</button>
       </div>
       <div class="input-field col s6">
         <button class="buttonClass waves-effect waves-light btn" v-on:click="addOneMonth" >Produži članarinu</button>
       </div>
+    </div>
+      <div class="row">
+        <div class="input-field col s6">
+
+            <button class="buttonClass waves-effect red btn" v-on:click="deleteUser" >Izbriši korisnika</button>
+          
+        </div>
+      </div>
+
     </div>
   </div>
   </template>
@@ -226,6 +236,25 @@ export default {
     }
   },
   methods:{
+    deleteUser(){
+      var por = confirm("Jeste li sigurni da želite izbrisati korisnika?");
+      if(por){
+      this.$http.post('https://gym-management-system-cc.herokuapp.com/api/v1/users/destroy', this.object).then(response => {
+      // success callback
+        this.error = false;
+        return response.json();
+      }, error => {
+        // error callback
+        if(error.status){
+          console.log(`error is ${error.status}`);
+          this.error = true;
+        }
+      }).then(data => {
+        alert(data.notice);
+        location.reload();
+      });
+    }
+    },
     changeHandler(){
       document.removeEventListener('keyup', this.foo);
     },

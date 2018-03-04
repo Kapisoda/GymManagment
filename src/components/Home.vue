@@ -29,7 +29,7 @@
       <div class="col s4">
         <h5>Statistika</h5>
        <pie-chart :data="chartData" :donut="true"></pie-chart>
-        <pie-chart :data="chartDataUser" :donut="true"></pie-chart> 
+        <pie-chart :data="chartDataUser" :donut="true"></pie-chart>
       </div>
       <div class="col s4">
         <h5>Dolasci</h5>
@@ -90,29 +90,32 @@ export default {
     this.loading.member_attendances = true;
     this.loading.users = true;
     this.$http.get('https://gym-management-system-cc.herokuapp.com/api/v1/member_attendances/index').then(response => {
-      this.loading.member_attendances = false;
-      return response.json();// success callback
-    }, error => {
-      if(error.status){
+       this.loading.member_attendances = false;
+       return response.json();// success callback
+     }, error => {
+       if(error.status){
       console.log(`Došlo je do pogreške ${error.status}`);
-      this.error = true;
-      } /*rror callback*/  }).then(data => {/*obrada podataka usersAttendance*/
+       this.error = true;
+       } /*rror callback*/  }).then(data => {/*obrada podataka usersAttendance*/
+
         if(data.status=='401')session.sessionDestroy();
-      var self = this;
-      data.member_attendances.reverse();
+       var self = this;
+       data.member_attendances.reverse();
+       let j = 0;
       for(let i=0; i<data.member_attendances.length; i++){
-        if(i>19){break;};
-        let obj={
-          first_name: data.member_attendances[i].user.first_name,
-          last_name: data.member_attendances[i].user.last_name,
-          time: moment(data.member_attendances[i].created_at).format('DD.MM.YYYY, HH:mm')
-        }
+        if(data.member_attendances[i].user.first_name){
+          j++;
+        if(j>19){break;};
+         let obj={
+         first_name: data.member_attendances[i].user.first_name,
+           last_name: data.member_attendances[i].user.last_name,
+           time: moment(data.member_attendances[i].created_at).format('DD.MM.YYYY, HH:mm')
+         }
         self.usersAttendance.push(obj);
-      };
-
-
-  });
-
+       };
+     }
+   });
+this.loading.member_attendances = false;
 
     this.$http.get('https://gym-management-system-cc.herokuapp.com/api/v1/groups/index').then(response => {
     /*success callback*/ return response.json();}, error => {/* error callback*/}).then(data => {
