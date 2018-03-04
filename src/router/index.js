@@ -60,7 +60,7 @@ let router = new Router({
 
 router.beforeEach((to, from, next) => {
   //console.log('In before each')
-  console.log(session.getSessionAuth_token());
+  
   if (to.path == '/login'){
     next()
   }else if (!session.getSessionAuth_token()){ // !window.sessionStorage.getItem('token')
