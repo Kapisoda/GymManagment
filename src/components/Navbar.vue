@@ -6,6 +6,7 @@
         <li><router-link to="users">Korisnici</router-link></li>
         <li><router-link to="groups">Grupe</router-link></li>
         <li><router-link to="memberships">Članarine</router-link></li>
+        <li><a href="../../static/Upute za korištenja programa za teretane.pdf" download>Uputa za korštenje</a></li>
       </ul>
       <ul class="right hide-on-med-and-down">
           <li><a v-on:click="singOut">Odjavi se </a></li>

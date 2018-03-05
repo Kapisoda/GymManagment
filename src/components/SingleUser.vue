@@ -232,7 +232,8 @@ export default {
       },
       flagToChangeUser: false,
       time: '',
-      doc: ''
+      doc: '',
+      numberOfEnter: 0
     }
   },
   methods:{
@@ -259,9 +260,11 @@ export default {
       document.removeEventListener('keyup', this.foo);
     },
     foo(event){
-        var vm = this;
+        this.numberOfEnter++;
+        console.log(this.numberOfEnter);
+        console.log(event);
         if(event.keyCode == 13) {
-          vm.confirmArrival();
+          //this.confirmArrival();
         }
     },
     confirmArrival(){
@@ -308,6 +311,7 @@ export default {
       this.object.user.membership_ends_at = moment(this.object.user.membership_ends_at).add(1, 'M').format('YYYY-MM-DD');
     },
     changeUser(){
+
       this.errorsArray=[];
       if(!this.object.user.first_name) this.errorsArray.push("Potrebo je upisati ime korisnika.");
       if(!this.object.user.last_name) this.errorsArray.push("Potrebo je upisati prezime korisnika.");
@@ -328,6 +332,7 @@ export default {
           }
         }
       //}
+      console.log('2');
       if(this.genderSelect){
         this.object.user.sex= this.genderSelect.value;
       }
@@ -341,6 +346,7 @@ export default {
           self.object.user.group_ids.push(el.value);
         });
       }
+
       this.$http.post('https://gym-management-system-cc.herokuapp.com/api/v1/users/update', this.object).then(response => {
       // success callback
         this.error = false;
@@ -455,7 +461,7 @@ export default {
       });
 
   },
-  destroyed(){
+  beforeDestroy(){
     window.removeEventListener('keyup', this.foo);
   },
   mounted(){

@@ -12,7 +12,7 @@
       <div class="row">
         <div class="input-field col s12">
           <input :disabled="disabled" id="tj" type="text" class="validate" v-model="object.membership_type.max_week_attendance_restriction">
-          <label class="active" for="tj">Tjedni broj dolazaka</label>
+          <label class="active" for="tj">Broj dolazaka</label>
         </div>
       </div>
       <div class="row">
