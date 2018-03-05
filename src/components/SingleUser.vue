@@ -160,7 +160,7 @@
         <div class="input-field col s6">
 
             <button class="buttonClass waves-effect red btn" v-on:click="deleteUser" >Izbriši korisnika</button>
-          
+
         </div>
       </div>
 
@@ -260,7 +260,7 @@ export default {
     },
     foo(event){
         var vm = this;
-        if (event.keyCode == 13) {
+        if(event.keyCode == 13) {
           vm.confirmArrival();
         }
     },
@@ -456,10 +456,10 @@ export default {
 
   },
   destroyed(){
-    document.removeEventListener('keyup', this.foo);
+    window.removeEventListener('keyup', this.foo);
   },
   mounted(){
-    document.addEventListener('keyup',  this.foo);
+    window.addEventListener('keyup',  this.foo);
   },
   components:{
     Loader

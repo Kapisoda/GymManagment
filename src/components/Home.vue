@@ -13,7 +13,7 @@
     <div class="row" >
       <div class="col s12">
         <h5>Kartice</h5>
-        <p><input v-if="focus" type="text" v-model="stringCard" autofocus/></p> <!--onblur="this.focus()"  v-on:blur="myFunctionHere()-->
+        <p><input  type="text" v-model="stringCard" autofocus/></p> <!--onblur="this.focus()"  v-on:blur="myFunctionHere()-->
       </div>
     </div>
     <div class="row" >
@@ -162,8 +162,8 @@ this.loading.member_attendances = false;
     });
   },
   methods:{
-    focusBlure(event){
-      this.focus= event;
+    focusBlure(){
+
     },
     createNote(){
       this.focus = false;
