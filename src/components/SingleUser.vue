@@ -30,9 +30,7 @@
           </div>
         </div>
         <div class="row">
-
               <p style="text-align: center"><b style="color: gray;">Grupe: {{stringOfGroups}}</b></p>
-
         </div>
         <div class="row">
             <p style="text-align: center"><b style="color: gray;">Članarine: </b></p>
@@ -72,7 +70,7 @@
           <label class="active" for="birthDate">Datum rođenja</label>
         </div>
         <div class="input-field col s6">
-          <input :disabled="disabled" id="cardNumber" type="text" class="validate" v-model="object.user.code">
+          <input :disabled="disabled" id="cardNumber" type="text" class="validate" v-model="doc">
           <label class="active" for="cardNumber">Broj kartice</label>
         </div>
       </div>
@@ -251,7 +249,7 @@ export default {
           this.error = true;
         }
       }).then(data => {
-        alert(data.notice);
+
         location.reload();
       });
     }
@@ -332,7 +330,7 @@ export default {
           }
         }
       //}
-      console.log('2');
+
       if(this.genderSelect){
         this.object.user.sex= this.genderSelect.value;
       }
@@ -383,6 +381,7 @@ export default {
       this.object.user.address = this.singleUserObject.address;
       this.genderSelect = this.singleUserObject.sex;
       this.object.user.code = this.singleUserObject.code;
+      this.doc = this.singleUserObject.code;
       this.object.user.membership_starts_at = this.singleUserObject.membership_starts_at;
       this.object.user.membership_ends_at = this.singleUserObject.membership_ends_at;
       this.object.user.phone_number = this.singleUserObject.phone_number;
@@ -466,6 +465,11 @@ export default {
   },
   mounted(){
     //window.addEventListener('keyup',  this.foo);
+  },
+  watch:{
+    doc(val){
+      this.object.user.code = val.toLowerCase();
+    }
   },
   components:{
     Loader

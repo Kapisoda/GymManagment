@@ -204,6 +204,7 @@ this.loading.member_attendances = false;
     stringCard(){ //_.includes(this.stringCard, '_')
       var tempError = [];
       var self = this;
+      this.stringCard = this.stringCard.toLowerCase();
       this.numberUnderline = this.stringCard.split("_").length - 1
       if(this.numberUnderline==2){
         this.users.forEach(function(x) {

@@ -10,7 +10,7 @@
           <div class="row" v-if="errorLogin != ''">
             <div class="col s12">
               <div class="error-login">
-                  <p><strong>Oprez!</strong> {{errorLogin}}</p>
+                  <p>{{errorLogin}}</p>
               </div>
             </div>
           </div>
