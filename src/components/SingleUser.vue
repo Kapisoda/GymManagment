@@ -257,16 +257,16 @@ export default {
     }
     },
     changeHandler(){
-      document.removeEventListener('keyup', this.foo);
+      //document.removeEventListener('keyup', this.foo);
     },
-    foo(event){
+  /*  foo(event){
         this.numberOfEnter++;
         console.log(this.numberOfEnter);
         console.log(event);
         if(event.keyCode == 13) {
           //this.confirmArrival();
         }
-    },
+    }, */
     confirmArrival(){
       //chosenMembershipthis.errorsArray=[];
       if(!this.object.user.first_name) this.errorsArray.push("Potrebo je upisati ime korisnika.");
@@ -462,10 +462,10 @@ export default {
 
   },
   beforeDestroy(){
-    window.removeEventListener('keyup', this.foo);
+    //window.removeEventListener('keyup', this.foo);
   },
   mounted(){
-    window.addEventListener('keyup',  this.foo);
+    //window.addEventListener('keyup',  this.foo);
   },
   components:{
     Loader
