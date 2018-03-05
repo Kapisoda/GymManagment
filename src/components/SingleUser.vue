@@ -299,7 +299,7 @@ export default {
         });
 
       }else{
-        alert('Prije potvrde dolaska potrebno je odabrati vrstu članarine.');
+        this.noticeMessage = 'Prije potvrde dolaska potrebno je odabrati vrstu članarine.';
       }
     }
     },
