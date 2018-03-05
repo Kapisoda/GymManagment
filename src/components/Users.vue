@@ -9,7 +9,7 @@
 
           <!-- <p><button class="waves-effect waves-light btn" v-on:click="showUsers='active'">Active users</button></p>
         <p><button class="waves-effect waves-light btn" v-on:click="showUsers='inactive'">Inactive users</button></p>-->
-          <p>Po korisnicima:</p>
+          <p>Po aktivnostima:</p>
           <v-select v-model="filterArray" :options="[{ label: 'Aktivni', value: 'active'},{ label: 'Neaktivni', value: 'inactive'},{ label: 'Pauza', value: 'pause'}]"></v-select>
           <p>Po grupama:</p>
           <v-select v-model="groupOption" :options="groups"></v-select>
