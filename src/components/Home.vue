@@ -205,7 +205,7 @@ this.loading.member_attendances = false;
       var tempError = [];
       var self = this;
       this.stringCard = this.stringCard.toLowerCase();
-      this.numberUnderline = this.stringCard.split("_").length - 1
+      this.numberUnderline = this.stringCard.split(";").length - 1
       if(this.numberUnderline==2){
         this.users.forEach(function(x) {
           if(x.code==self.stringCard){
