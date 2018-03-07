@@ -19,7 +19,8 @@
       </tr>
       <tr class="list-group-item" style="cursor: pointer;" v-for="membership in memberships"  :key="membership.id">
         <td v-on:click="seeMembership(membership.id)" >{{membership.name}}</td>
-        <td v-on:click="seeMembership(membership.id)" >{{membership.max_week_attendance_restriction}}</td>
+        <td v-on:click="seeMembership(membership.id)" ><p v-if="membership.max_week_attendance_restriction<900">{{membership.max_week_attendance_restriction}}</p>
+        <p v-else>Neograničeno</p></td>
         <td v-on:click="seeMembership(membership.id)" >{{membership.after_hour_restriction}}</td>
       </tr>
     </table>

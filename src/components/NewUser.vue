@@ -161,7 +161,7 @@ export default {
       if(!this.newUserObject.user.code) this.errorsArray.push("Potrebo je zapisati korisnikovu karticu.");
       if(!this.statusSelect) this.errorsArray.push("Potrebo je odabrati aktivnost korisnika.");
       if(!this.membershipOption || this.membershipOption.length == 0) this.errorsArray.push("Potrebo je odabrati članarinu korisnika.");
-      if(!this.groupOption || this.groupOption.length == 0) this.errorsArray.push("Potrebo je odabrati grupu korisnika.");
+      //if(!this.groupOption || this.groupOption.length == 0) this.errorsArray.push("Potrebo je odabrati grupu korisnika.");
       if(this.errorsArray.length == 0){
         var self = this;
         if(this.membershipOption){

@@ -51,7 +51,10 @@ export default {
      if(this.object.membership_type.after_hour_restriction == ''){
        let timeStr = "23:59";
        this.object.membership_type.after_hour_restriction = moment(timeStr, 'HH:mm');
-      }
+     };
+      if(this.object.membership_type.max_week_attendance_restriction == ''){
+        this.object.membership_type.max_week_attendance_restriction = 999;
+      };
      this.$http.post('https://gym-management-system-cc.herokuapp.com/api/v1/membership_types/create', this.object).then(response => {
        // success callback
        this.error = false;

@@ -156,9 +156,7 @@
     </div>
       <div class="row">
         <div class="input-field col s6">
-
             <button class="buttonClass waves-effect red btn" v-on:click="deleteUser" >Izbriši korisnika</button>
-
         </div>
       </div>
 
@@ -277,7 +275,7 @@ export default {
         this.changeUser();
       }*/
       if(!this.membershipOption || this.membershipOption.length == 0) this.errorsArray.push("Potrebo je odabrati članarinu korisnika.");
-      if(!this.groupOption || this.groupOption.length == 0) this.errorsArray.push("Potrebo je odabrati grupu korisnika.");
+      //if(!this.groupOption || this.groupOption.length == 0) this.errorsArray.push("Potrebo je odabrati grupu korisnika.");
       if(this.errorsArray.length == 0){
       this.noticeMessage = '';
       if(this.chosenMembership && this.object.user.code){
@@ -316,7 +314,7 @@ export default {
       if(!this.object.user.code) this.errorsArray.push("Potrebo je zapisati korisnikovu karticu.");
       if(!this.statusSelect) this.errorsArray.push("Potrebo je odabrati aktivnost korisnika.");
       if(!this.membershipOption || this.membershipOption.length == 0) this.errorsArray.push("Potrebo je odabrati članarinu korisnika.");
-      if(!this.groupOption || this.groupOption.length == 0) this.errorsArray.push("Potrebo je odabrati grupu korisnika.");
+      //if(!this.groupOption || this.groupOption.length == 0) this.errorsArray.push("Potrebo je odabrati grupu korisnika.");
       if(this.errorsArray.length == 0){
       var self = this;
 
