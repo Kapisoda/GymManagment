@@ -11,6 +11,14 @@ import VueChartkick from 'vue-chartkick'
 import Chart from 'chart.js'
 import jQuery from 'jquery'
 import 'materialize-css'
+const bugsnag = require('bugsnag-js')
+const bugsnagClient = bugsnag('b31ae9cc55512f16cd20807f489e9275')
+
+// Initialize Vue before we start the BugsnagVue plugin
+
+const bugsnagVue = require('bugsnag-vue')
+
+bugsnagClient.use(bugsnagVue(Vue))
 Vue.use(VueChartkick, { Chartkick })
 
 
