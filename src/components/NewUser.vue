@@ -13,7 +13,16 @@
           <p><strong>Oprez!</strong> {{errorMessage}}</p>
       </div>
       </div>
-      <div class="row">
+
+      <div class="tab">
+              <button class="tablinks" v-on:click="openEvent($event,'obavezneInformacije')">Obavezne informacije</button>
+              <button class="tablinks" v-on:click="openEvent($event,'dodatneInformacije')">Dodatne informacije</button>
+      </div>
+
+      <div id="obavezneInformacije" class="tabcontent">
+        <h3>Obavezne informacije</h3>
+
+        <div class="row">
         <div class="input-field col s6">
           <input type="text" class="validate" v-model="newUserObject.user.first_name">
           <label  for="Ime">Ime</label>
@@ -23,7 +32,32 @@
           <label for="Prezime">Prezime</label>
         </div>
       </div>
+
       <div class="row">
+        <div class="input-field col s6">
+          <input id="cardNumber" type="text" class="validate" v-model="newUserObject.user.code">
+          <label for="cardNumber">Broj kartice</label>
+        </div>
+        <div class="input-field col s6">
+          <label class="active" for="aktivnost">Aktivnost</label>
+          <br />
+          <v-select v-model="statusSelect" :options="[{ label: 'Aktivni', value: 'active'},{ label: 'Neaktivni', value: 'inactive'}, { label: 'Pauza', value: 'pause'}]"></v-select>
+        </div>
+      </div>
+      <div class= "row">
+        
+        <div class="field col s12">
+          <label class="active" for="memberships">Članarine</label>
+          <br />
+          <v-select multiple v-model="membershipOption" :options="membershipsForPick"></v-select>
+        </div>
+      </div>
+
+      </div>
+
+      <div id="dodatneInformacije" class="tabcontent">
+          <h3>Dodatne informacije</h3>
+          <div class="row">
         <div class="input-field col s6">
           <input id="Address" type="text" class="validate" v-model="newUserObject.user.address">
           <label  for="Address">Adresa</label>
@@ -32,15 +66,15 @@
           <input id="OIB" type="text" class="validate" v-model="newUserObject.user.OIB">
           <label for="OIB">OIB</label>
         </div>
-      </div>
-      <div class="row">
+        </div>
+        <div class="row">
         <div class="input-field col s6">
           <input  id="birthDate" type="date" v-model="newUserObject.user.birth_date">
           <label class="active" for="birthDate">Datum rođenja</label>
         </div>
-        <div class="input-field col s6">
-          <input id="cardNumber" type="text" class="validate" v-model="newUserObject.user.code">
-          <label for="cardNumber">Broj kartice</label>
+       <div class="input-field col s6">
+          <input id="phoneNumber" type="text" class="validate" v-model="newUserObject.user.phone_number">
+          <label  for="phoneNumber">Tel</label>
         </div>
       </div>
       <div class="row">
@@ -49,29 +83,9 @@
           <label for="Email">Email</label>
         </div>
         <div class="input-field col s6">
-          <label class="active" for="aktivnost">Aktivnost</label>
-          <br />
-          <v-select v-model="statusSelect" :options="[{ label: 'Aktivni', value: 'active'},{ label: 'Neaktivni', value: 'inactive'}, { label: 'Pauza', value: 'pause'}]"></v-select>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="input-field col s6">
-          <input id="phoneNumber" type="text" class="validate" v-model="newUserObject.user.phone_number">
-          <label  for="phoneNumber">Tel</label>
-        </div>
-        <div class="input-field col s6">
           <label class="active" for="gender">Spol</label>
           <br />
           <v-select v-model="genderSelect" :options="[{ label: 'M', value: 'm'},{ label: 'Ž', value: 'ž'}]"></v-select>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="field col s12">
-          <label class="active" for="memberships">Članarine</label>
-          <br />
-          <v-select multiple v-model="membershipOption" :options="membershipsForPick"></v-select>
         </div>
       </div>
       <div class="row">
@@ -81,6 +95,28 @@
           <v-select multiple v-model="groupOption" :options="groupsForPick"></v-select>
         </div>
       </div>
+      </div>
+
+
+
+
+
+
+
+      
+      
+      
+      
+
+      <div class="row">
+        
+        
+      </div>
+
+      <div class="row">
+        
+      </div>
+      
       <div class="row">
         <div class="input-field col s6">
           <input  id="from" type="date" v-model="newUserObject.user.membership_starts_at">
@@ -149,11 +185,32 @@ export default {
       loading: {
         membership: false,
         groups: false
-      }
+      },
+      i: 0
 
     }
   },
   methods:{
+    openEvent(evt, nameTab){
+     
+      var i, tabcontent, tablinks;
+
+    // Get all elements with class="tabcontent" and hide them
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+   
+    // Get all elements with class="tablinks" and remove the class "active"
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    
+    // Show the current tab, and add an "active" class to the button that opened the tab
+    document.getElementById(nameTab).style.display = "block";
+     
+    },
     createNewUser(){
       this.errorsArray=[];
       if(!this.newUserObject.user.first_name) this.errorsArray.push("Potrebo je upisati ime korisnika.");
@@ -208,6 +265,7 @@ export default {
     Loader
   },
   created(){
+    //
       this.loading.membership = true;
       this.loading.groups = true;
     this.$http.get('https://gym-management-system-cc.herokuapp.com/api/v1/membership_types/index').then(response => {
@@ -261,12 +319,20 @@ export default {
 
     this.newUserObject.user.membership_starts_at = moment().format('YYYY-MM-DD');
     this.newUserObject.user.membership_ends_at = moment().add(1, 'M').format('YYYY-MM-DD');
+    
+  },
+  mounted(){
+    var self = this;
+    setTimeout(function() { var evt = new MouseEvent("click");
+    self.openEvent(evt, 'obavezneInformacije'); }, 300);
+    
   }
 }
 
 </script>
 
 <style lang="scss" scoped>
+
 .sizeOf{
   font-size: 25px;
 }
@@ -274,6 +340,41 @@ export default {
 .danger {
     background-color: #ffdddd;
     border-left: 6px solid #f44336;
+}
+.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+    background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
 }
 
 </style>

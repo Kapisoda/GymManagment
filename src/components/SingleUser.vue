@@ -2,6 +2,7 @@
 <div>
   <loader v-if="loading.user || loading.groups ||loading.membership"></loader>
   <template v-else>
+    <div>
   <div class="row">
     <form class="col s12">
       <div class="row" v-if="errorsArray">
@@ -25,36 +26,90 @@
         <div class="row">
           <div class="input-field col s12">
             <center>
-                <h3>{{object.user.first_name}} {{object.user.last_name}}</h3>
+                <h3 style="margin: 0px">{{object.user.first_name}} {{object.user.last_name}}</h3>
             </center>
           </div>
         </div>
-        <div class="row">
-              <p style="text-align: center"><b style="color: gray;">Grupe: {{stringOfGroups}}</b></p>
+        <div class="row" style="margin: 0px">
+              <p style="text-align: center; margin: 0px;"><b style="color: gray;">Grupe: {{stringOfGroups}}</b></p>
         </div>
-        <div class="row">
+        <div class="row" style="margin: 0px">
             <p style="text-align: center"><b style="color: gray;">Članarine: </b></p>
-            <h4 style="text-align: center"><b>{{stringOfMemberships}}</b></h4>
+            <h4 style="text-align: center; margin: 0px;"><b>{{stringOfMemberships}}</b></h4>
         </div>
-        <div class="row">
+        <div class="row" style="margin: 0px">
           <p style="text-align: center"><b style="color: gray;">Članarina vrijedi do: </b></p>
-          <h4 style="text-align: center"><b>{{time}}</b></h4>
+          <h4 style="text-align: center; margin: 0px;"><b>{{time}}</b></h4>
+        </div>
+        <div class="row" v-if="object.user.description != null && object.user.description != ''">
+          <div class="input-field col s12">
+            <p style="text-align: center; border: 1px solid red;"><b style="color: red;">{{object.user.description}}  </b></p>
+          </div>
         </div>
       </div>
       <div v-else>
-        <h3 class="title">Korisnik</h3>
-      <div class="row">
+
+          <div class="tab">
+              <button class="tablinks" v-on:click="openEvent($event,'obavezneInformacije')">Obavezne informacije</button>
+              <button class="tablinks" v-on:click="openEvent($event,'dodatneInformacije')">Dodatne informacije</button>
+              <button class="tablinks" v-on:click="openEvent($event,'dolasci')">Dolasci</button>
+          </div>
+
+          <div id="obavezneInformacije" class="tabcontent">
+              <h3>Obavezne informacije</h3>
+              <div class="row">
+              <div class="input-field col s6">
+                <input :disabled="disabled" id="first_name" type="text" class="validate" v-model="object.user.first_name">
+                <label class="active" for="first_name">Ime:</label>
+              </div>
+              <div class="input-field col s6">
+                <input :disabled="disabled" id="last_name" type="text" class="validate" v-model="object.user.last_name">
+                <label class="active" for="last_name">Prezime:</label>
+              </div>
+            </div>
+
+            <div class="row">
+        
         <div class="input-field col s6">
-          <input :disabled="disabled" id="first_name" type="text" class="validate" v-model="object.user.first_name">
-          <label class="active" for="first_name">Ime:</label>
+          <input :disabled="disabled" id="cardNumber" type="text" class="validate" v-model="doc">
+          <label class="active" for="cardNumber">Broj kartice</label>
         </div>
+
         <div class="input-field col s6">
-          <input :disabled="disabled" id="last_name" type="text" class="validate" v-model="object.user.last_name">
-          <label class="active" for="last_name">Prezime:</label>
+          <label class="active" for="aktivnost">Aktivnost</label>
+          <br />
+          <v-select :disabled="disabled" v-model="statusSelect" :options="[{ label: 'Aktivni', value: 'active'},{ label: 'Neaktivni', value: 'inactive'}, { label: 'Pauza', value: 'pause'}]"></v-select>
         </div>
+        
       </div>
 
       <div class="row">
+        <div class="input-field col s12">
+           <label class="active" for="Memberships">Članarine</label>
+           <br />
+           <v-select multiple :disabled="disabled" type="text" v-model="membershipOption" :options="membershipsForPick"></v-select>
+        </div>
+      
+      
+      </div>
+      <div class="row">
+        <div class="input-field col s6">
+          <input :disabled="disabled" id="from" type="date" v-model="object.user.membership_starts_at">
+          <label class="active" for="from">Trajanje članarine od:</label>
+        </div>
+        <div class="input-field col s6">
+          <input :disabled="disabled" id="to"  type="date" v-model="object.user.membership_ends_at" >
+          <label class="active" for="to">Trajanje članarine do:</label>
+        </div>
+      </div>
+      </div>
+
+        <div id="dodatneInformacije" class="tabcontent">
+          <h3>Dodatne informacije</h3>
+
+        
+
+          <div class="row">
         <div class="input-field col s6">
           <input :disabled="disabled" id="Address" type="text" class="validate" v-model="object.user.address">
           <label class="active" for="Address">Adresa</label>
@@ -70,26 +125,14 @@
           <label class="active" for="birthDate">Datum rođenja</label>
         </div>
         <div class="input-field col s6">
-          <input :disabled="disabled" id="cardNumber" type="text" class="validate" v-model="doc">
-          <label class="active" for="cardNumber">Broj kartice</label>
+          <input :disabled="disabled" id="phoneNumber" type="text" class="validate" v-model="object.user.phone_number">
+          <label class="active" for="phoneNumber">Tel:</label>
         </div>
       </div>
-
-      <div class="row">
+        <div class="row">
         <div class="input-field col s6">
           <input :disabled="disabled" id="Email" type="text" class="validate" v-model="object.user.email">
           <label class="active" for="Email">Email</label>
-        </div>
-        <div class="input-field col s6">
-          <label class="active" for="aktivnost">Aktivnost</label>
-          <br />
-          <v-select :disabled="disabled" v-model="statusSelect" :options="[{ label: 'Aktivni', value: 'active'},{ label: 'Neaktivni', value: 'inactive'}, { label: 'Pauza', value: 'pause'}]"></v-select>
-        </div>
-      </div>
-      <div class="row">
-        <div class="input-field col s6">
-          <input :disabled="disabled" id="phoneNumber" type="text" class="validate" v-model="object.user.phone_number">
-          <label class="active" for="phoneNumber">Tel:</label>
         </div>
         <div class="input-field col s6">
           <label class="active" for="gender">Spol</label>
@@ -97,31 +140,35 @@
           <v-select :disabled="disabled" v-model="genderSelect" :options="[{ label: 'M', value: 'm'},{ label: 'Ž', value: 'ž'}]"></v-select>
         </div>
       </div>
-
       <div class="row">
-        <div class="input-field col s12">
-           <label class="active" for="Memberships">Članarine</label>
-           <br />
-           <v-select multiple :disabled="disabled" type="text" v-model="membershipOption" :options="membershipsForPick"></v-select>
-        </div>
-      </div>
-      <div class="row">
-        <div class="field col s12">
+          <div class="field col s12">
           <label class="active" for="groups">Grupe</label>
           <br />
           <v-select multiple :disabled="disabled" v-model="groupOption" :options="groupsForPick"></v-select>
         </div>
       </div>
+        
+      
       <div class="row">
-        <div class="input-field col s6">
-          <input :disabled="disabled" id="from" type="date" v-model="object.user.membership_starts_at">
-          <label class="active" for="from">Trajanje članarine od:</label>
-        </div>
-        <div class="input-field col s6">
-          <input :disabled="disabled" id="to"  type="date" v-model="object.user.membership_ends_at" >
-          <label class="active" for="to">Trajanje članarine do:</label>
-        </div>
+      <div class="input-field col s12">
+            <input :disabled="disabled" id="to"  type="text" v-model="object.user.description" >
+            <label class="active" for="to">Poruka</label>
       </div>
+        </div>
+          </div>
+        <div id="dolasci" class="tabcontent">
+          <h3>Dolasci</h3>
+          <div class="row">
+            <div class="input-field col s12">
+              <center>
+                <div style="height:280px;width:400px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;">
+                <div v-for="att in attendance"><p>{{att}}</p></div>
+          </div>
+                
+              </center>
+            </div>
+          </div>
+        </div>
       </div>
 
     </form>
@@ -137,12 +184,16 @@
       <div class="input-field col s3">
       </div>
       </div>
+      
     <div class="row" v-if="disabled">
       <div class="input-field col s6">
-        <button v-on:click="disabled = !disabled; changeHandler()" class="buttonClass waves-effect waves-light btn">Promjeni informacije</button>
+        <button v-on:click="changeHandler" class="buttonClass waves-effect waves-light btn">Promjeni informacije</button>
       </div>
-      <div class="input-field col s6">
+      <div class="input-field col s6" v-if="statusSelect != 'inactive'">
           <button v-on:click="confirmArrival"  class="buttonClass waves-effect waves-light btn">Potvrdi dolazak</button>
+      </div>
+      <div class="input-field col s6" v-else>
+          <button v-on:click="bonusArrival"  class="buttonClass waves-effect green btn">Bonus dolazak</button>
       </div>
     </div>
     <div v-else>
@@ -158,10 +209,13 @@
         <div class="input-field col s6">
             <button class="buttonClass waves-effect red btn" v-on:click="deleteUser" >Izbriši korisnika</button>
         </div>
+        
       </div>
 
     </div>
   </div>
+
+    </div>
   </template>
 </div>
 </template>
@@ -176,6 +230,11 @@ export default {
   props: ['singleUserObject'],
   data () {
     return {
+      bonusObject:{
+        bonus_attendance:{
+          user_id: ''
+        }
+      },
       attendanceObject:{
         member_attendance: {
 		          code: '',
@@ -200,7 +259,9 @@ export default {
           group_ids: [],
           membership_starts_at: '',
           membership_ends_at: '',
-          membership_pause_at: ''
+          membership_pause_at: '',
+          bonus_attendance: '',
+          description: ''
         }
       },
       disabled: true,
@@ -229,10 +290,76 @@ export default {
       flagToChangeUser: false,
       time: '',
       doc: '',
-      numberOfEnter: 0
+      numberOfEnter: 0,
+      attendance: []
+     
     }
   },
   methods:{
+    openEvent(evt, nameTab){
+     
+      var i, tabcontent, tablinks;
+
+    // Get all elements with class="tabcontent" and hide them
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+
+    // Get all elements with class="tablinks" and remove the class "active"
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+
+    // Show the current tab, and add an "active" class to the button that opened the tab
+    document.getElementById(nameTab).style.display = "block";
+
+    //evt.currentTarget.className += " active";
+
+    },
+    bonusArrival(){
+      console.log(this.object.user.bonus_attendance);
+    
+      //if(this.object.user.bonus_attendance == null){
+        this.$http.post('https://gym-management-system-cc.herokuapp.com/api/v1/bonus_attendances/create', this.bonusObject).then(response => {
+      // success callback
+        this.error = false;
+        return response.json();
+      }, error => {
+        // error callback
+        if(error.status){
+          console.log(`error is ${error.status}`);
+          this.error = true;
+        }
+      }).then(data => { if(data.status=='401')session.sessionDestroy();
+        
+          if(data.notice)this.noticeMessage = data.notice.detail + ' '+ this.object.user.bonus_attendance;
+          if(this.object.user.bonus_attendance == '')location.reload();
+      });
+     
+    },
+    arrivals(){
+        this.$http.post('https://gym-management-system-cc.herokuapp.com/api/v1/users/show', this.object).then(response => {
+      // success callback
+        this.error = false;
+        return response.json();
+      }, error => {
+        // error callback
+        if(error.status){
+          console.log(`error is ${error.status}`);
+          this.error = true;
+        }
+      }).then(data => { if(data.status=='401')session.sessionDestroy();
+        var self = this;
+        
+        self.attendance = [];
+        data.user.member_attendances.forEach(function(el){
+          let temp = moment(el.created_at).format('DD.MM.YYYY, HH:mm');
+              self.attendance.push(temp);
+        });
+      });
+    },
     deleteUser(){
       var por = confirm("Jeste li sigurni da želite izbrisati korisnika?");
       if(por){
@@ -253,7 +380,11 @@ export default {
     }
     },
     changeHandler(){
-      //document.removeEventListener('keyup', this.foo);
+      this.disabled = !this.disabled;
+      var self = this;
+      setTimeout(function() { var evt = new MouseEvent("click");
+      self.openEvent(evt, 'obavezneInformacije'); }, 300);
+ 
     },
   /*  foo(event){
         this.numberOfEnter++;
@@ -292,6 +423,7 @@ export default {
             this.error = true;
           }
         }).then(data => {
+          
           if(data.status=='401')session.sessionDestroy();
           if(data.notice)this.noticeMessage = data.notice.detail;
           if(this.noticeMessage == '')location.reload();
@@ -307,7 +439,7 @@ export default {
       this.object.user.membership_ends_at = moment(this.object.user.membership_ends_at).add(1, 'M').format('YYYY-MM-DD');
     },
     changeUser(){
-
+      //alert(this.object.user.description);
       this.errorsArray=[];
       if(!this.object.user.first_name) this.errorsArray.push("Potrebo je upisati ime korisnika.");
       if(!this.object.user.last_name) this.errorsArray.push("Potrebo je upisati prezime korisnika.");
@@ -359,7 +491,7 @@ export default {
       //}
       });
       //this.disabled=  true;
-
+      
       }
     }
   },
@@ -370,6 +502,7 @@ export default {
       this.loading.groups = true;
 
       this.object.user.id = this.singleUserObject.id;
+      this.bonusObject.bonus_attendance.user_id = this.singleUserObject.id;
       this.object.user.first_name = this.singleUserObject.first_name;
       this.object.user.last_name = this.singleUserObject.last_name;
       this.object.user.birth_date = this.singleUserObject.birth_date;
@@ -383,6 +516,10 @@ export default {
       this.object.user.membership_starts_at = this.singleUserObject.membership_starts_at;
       this.object.user.membership_ends_at = this.singleUserObject.membership_ends_at;
       this.object.user.phone_number = this.singleUserObject.phone_number;
+      this.object.user.description = this.singleUserObject.description;
+      console.log(this.singleUserObject.description);
+      if(this.singleUserObject.bonus_attendance){this.object.user.bonus_attendance = moment(this.singleUserObject.bonus_attendance).format('DD.MM.YYYY, HH:mm');}
+
       this.time = moment(this.object.user.membership_ends_at).locale("hr").format('L');
       var self = this;
       this.singleUserObject.membership_types.forEach(function(el){
@@ -457,12 +594,14 @@ export default {
         });
       });
 
+      this.arrivals();
+
   },
   beforeDestroy(){
     //window.removeEventListener('keyup', this.foo);
   },
   mounted(){
-    //window.addEventListener('keyup',  this.foo);
+    
   },
   watch:{
     doc(val){
@@ -516,4 +655,42 @@ div.textUser{
   font-size: 20px;
   margin: 20px 20px 20px 20px;
 }
+
+
+.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+    background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+
 </style>
