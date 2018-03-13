@@ -319,7 +319,7 @@ export default {
 
     },
     bonusArrival(){
-      console.log(this.object.user.bonus_attendance);
+      
     
       //if(this.object.user.bonus_attendance == null){
         this.$http.post('https://gym-management-system-cc.herokuapp.com/api/v1/bonus_attendances/create', this.bonusObject).then(response => {
@@ -517,7 +517,7 @@ export default {
       this.object.user.membership_ends_at = this.singleUserObject.membership_ends_at;
       this.object.user.phone_number = this.singleUserObject.phone_number;
       this.object.user.description = this.singleUserObject.description;
-      console.log(this.singleUserObject.description);
+      
       if(this.singleUserObject.bonus_attendance){this.object.user.bonus_attendance = moment(this.singleUserObject.bonus_attendance).format('DD.MM.YYYY, HH:mm');}
 
       this.time = moment(this.object.user.membership_ends_at).locale("hr").format('L');

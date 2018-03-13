@@ -7,7 +7,7 @@
         <li><router-link to="groups">Grupe</router-link></li>
         <li><router-link to="memberships">Članarine</router-link></li>
         <!--<li><a href="../../static/Upute za korištenja programa za teretane.pdf" download>Uputa za korštenje</a></li> -->
-        <li><a href="#" onclick="window.open('../../static/Upute za korištenja programa za teretane.pdf', target='_blank', 'fullscreen=yes'); return false;">Uputa za korštenje</a></li>
+        <li><a href="#" onclick="window.open('../../static/Upute za korištenja programa za teretane .pdf', target='_blank', 'fullscreen=yes'); return false;">Uputa za korštenje</a></li>
       </ul>
       <ul class="right hide-on-med-and-down">
           <li><a v-on:click="singOut">Odjavi se </a></li>
