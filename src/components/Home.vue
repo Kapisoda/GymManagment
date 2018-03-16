@@ -89,7 +89,7 @@ export default {
     this.loading.groups = true;
     this.loading.member_attendances = true;
     this.loading.users = true;
-    this.$http.get('https://gym-management-system-cc.herokuapp.com/api/v1/member_attendances/index').then(response => {
+    this.$http.get(this.$callHttp +'/api/v1/member_attendances/index').then(response => {
        this.loading.member_attendances = false;
        return response.json();// success callback
      }, error => {
@@ -117,7 +117,7 @@ export default {
    });
 this.loading.member_attendances = false;
 
-    this.$http.get('https://gym-management-system-cc.herokuapp.com/api/v1/groups/index').then(response => {
+    this.$http.get(this.$callHttp +'/api/v1/groups/index').then(response => {
     /*success callback*/ return response.json();}, error => {/* error callback*/}).then(data => {
         //obrada podataka*/
         this.loading.groups = false;
@@ -127,7 +127,7 @@ this.loading.member_attendances = false;
           self.chartData.push([el.name, el.users.length ]);
         });
     });
-    this.$http.get('https://gym-management-system-cc.herokuapp.com/api/v1/notes/index').then(response => {
+    this.$http.get(this.$callHttp +'/api/v1/notes/index').then(response => {
       this.loading.notes = false;
       return response.json();// success callback
     }, error => {
@@ -139,7 +139,7 @@ this.loading.member_attendances = false;
       if(data.status=='401')session.sessionDestroy();
       this.notes = data.notes.reverse();});
 
-    this.$http.get('https://gym-management-system-cc.herokuapp.com/api/v1/users/index').then(response => {
+    this.$http.get(this.$callHttp +'/api/v1/users/index').then(response => {
       this.loading.users = false;
       return response.json();// success callback
     }, error => {  /*rror callback*/
@@ -173,7 +173,7 @@ this.loading.member_attendances = false;
       var por = confirm("Jeste li sigurni da želite izbrisati poruku?");
       if(por){
       this.object.note.id = id;
-      this.$http.post('https://gym-management-system-cc.herokuapp.com/api/v1/notes/destroy', this.object).then(response => {
+      this.$http.post(this.$callHttp +'/api/v1/notes/destroy', this.object).then(response => {
       // success callback
         this.error = false;
         return response.json();

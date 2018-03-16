@@ -34,7 +34,7 @@ export default {
     createNewNote(){
       this.object.note.author = session.getSessionUsername()+' - '+moment().format('DD.MM.YYYY');
       //this.object.note.body += ;
-      this.$http.post('https://gym-management-system-cc.herokuapp.com/api/v1/notes/create', this.object).then(response => {
+      this.$http.post(this.$callHttp +'/api/v1/notes/create', this.object).then(response => {
         // success callback
         this.error = false;
         return response.json();

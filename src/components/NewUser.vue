@@ -242,7 +242,7 @@ export default {
         if(this.genderSelect){
           this.newUserObject.user.sex = this.genderSelect.value;
         }
-       this.$http.post('https://gym-management-system-cc.herokuapp.com/api/v1/users/create', this.newUserObject).then(response => {
+       this.$http.post(this.$callHttp + '/api/v1/users/create', this.newUserObject).then(response => {
           // success callback
           this.error = false;
           return response.json();
@@ -268,7 +268,7 @@ export default {
     //
       this.loading.membership = true;
       this.loading.groups = true;
-    this.$http.get('https://gym-management-system-cc.herokuapp.com/api/v1/membership_types/index').then(response => {
+    this.$http.get(this.$callHttp +'/api/v1/membership_types/index').then(response => {
       // success callback
       this.loading.membership = false;
       return response.json();
@@ -293,7 +293,7 @@ export default {
     });
 
 
-    this.$http.get('https://gym-management-system-cc.herokuapp.com/api/v1/groups/index').then(response => {
+    this.$http.get(this.$callHttp +'/api/v1/groups/index').then(response => {
       // success callback
       this.loading.groups = false;
       return response.json();

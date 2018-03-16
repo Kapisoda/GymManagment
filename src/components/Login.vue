@@ -62,7 +62,7 @@ export default {
   methods: {
       login_user(){
         let check = false;
-      this.$http.post('https://gym-management-system-cc.herokuapp.com/api/v1/sessions/create', this.object).then(response => {
+      this.$http.post(this.$callHttp +'/api/v1/sessions/create', this.object).then(response => {
         // success callback
         this.error = false;
         return response.json();

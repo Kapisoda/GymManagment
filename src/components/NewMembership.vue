@@ -55,7 +55,7 @@ export default {
       if(this.object.membership_type.max_week_attendance_restriction == ''){
         this.object.membership_type.max_week_attendance_restriction = 999;
       };
-     this.$http.post('https://gym-management-system-cc.herokuapp.com/api/v1/membership_types/create', this.object).then(response => {
+     this.$http.post(this.$callHttp +'/api/v1/membership_types/create', this.object).then(response => {
        // success callback
        this.error = false;
        return response.json();

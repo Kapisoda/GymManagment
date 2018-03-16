@@ -55,7 +55,7 @@ export default {
   },
   created(){
       this.loading.groups = true;
-      this.$http.get('https://gym-management-system-cc.herokuapp.com/api/v1/groups/index').then(response => {
+      this.$http.get(this.$callHttp +'/api/v1/groups/index').then(response => {
       // success callback
       this.loading.groups = false;
       return response.json();

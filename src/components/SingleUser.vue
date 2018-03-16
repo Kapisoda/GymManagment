@@ -322,7 +322,7 @@ export default {
       
     
       //if(this.object.user.bonus_attendance == null){
-        this.$http.post('https://gym-management-system-cc.herokuapp.com/api/v1/bonus_attendances/create', this.bonusObject).then(response => {
+        this.$http.post(this.$callHttp +'/api/v1/bonus_attendances/create', this.bonusObject).then(response => {
       // success callback
         this.error = false;
         return response.json();
@@ -340,7 +340,7 @@ export default {
      
     },
     arrivals(){
-        this.$http.post('https://gym-management-system-cc.herokuapp.com/api/v1/users/show', this.object).then(response => {
+        this.$http.post(this.$callHttp +'/api/v1/users/show', this.object).then(response => {
       // success callback
         this.error = false;
         return response.json();
@@ -363,7 +363,7 @@ export default {
     deleteUser(){
       var por = confirm("Jeste li sigurni da želite izbrisati korisnika?");
       if(por){
-      this.$http.post('https://gym-management-system-cc.herokuapp.com/api/v1/users/destroy', this.object).then(response => {
+      this.$http.post(this.$callHttp +'/api/v1/users/destroy', this.object).then(response => {
       // success callback
         this.error = false;
         return response.json();
@@ -412,7 +412,7 @@ export default {
       if(this.chosenMembership && this.object.user.code){
         this.attendanceObject.member_attendance.code = this.object.user.code;
         this.attendanceObject.member_attendance.membership_id = this.chosenMembership.value;
-        this.$http.post('https://gym-management-system-cc.herokuapp.com/api/v1/member_attendances/create', this.attendanceObject).then(response => {
+        this.$http.post(this.$callHttp +'/api/v1/member_attendances/create', this.attendanceObject).then(response => {
         // success callback
           this.error = false;
           return response.json();
@@ -475,7 +475,7 @@ export default {
         });
       }
 
-      this.$http.post('https://gym-management-system-cc.herokuapp.com/api/v1/users/update', this.object).then(response => {
+      this.$http.post(this.$callHttp +'/api/v1/users/update', this.object).then(response => {
       // success callback
         this.error = false;
         return response.json();
@@ -552,7 +552,7 @@ export default {
       }
       this.loading.user = false;
 
-      this.$http.get('https://gym-management-system-cc.herokuapp.com/api/v1/membership_types/index').then(response => {
+      this.$http.get(this.$callHttp +'/api/v1/membership_types/index').then(response => {
         // success callback
         this.loading.membership = false;
         return response.json();
@@ -575,7 +575,7 @@ export default {
           self.membershipsForPick.push(obj);
         });
       });
-      this.$http.get('https://gym-management-system-cc.herokuapp.com/api/v1/groups/index').then(response => {
+      this.$http.get(this.$callHttp +'/api/v1/groups/index').then(response => {
         // success callback
         this.loading.groups = false;
         return response.json();

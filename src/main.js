@@ -19,6 +19,10 @@ const bugsnagClient = bugsnag('b31ae9cc55512f16cd20807f489e9275')
 const bugsnagVue = require('bugsnag-vue')
 
 bugsnagClient.use(bugsnagVue(Vue))
+//https://gms-test.herokuapp.com
+//https://gym-management-system-cc.herokuapp.com
+Vue.prototype.$callHttp = 'https://gym-management-system-cc.herokuapp.com'
+
 Vue.use(VueChartkick, { Chartkick })
 
 

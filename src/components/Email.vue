@@ -55,7 +55,7 @@ export default {
   methods:{
     sendMail(){
       this.sendMailLoader = true;
-      this.$http.post('https://gym-management-system-cc.herokuapp.com/api/v1/mails/create', this.object).then(response => {
+      this.$http.post(this.$callHttp +'/api/v1/mails/create', this.object).then(response => {
       // success callback
 
         return response;

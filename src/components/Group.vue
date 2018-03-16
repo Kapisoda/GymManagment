@@ -51,7 +51,7 @@ export default {
   },
   methods:{
     changeGroup(){
-      this.$http.post('https://gym-management-system-cc.herokuapp.com/api/v1/groups/update', this.object).then(response => {
+      this.$http.post(this.$callHttp +'/api/v1/groups/update', this.object).then(response => {
       // success callback
         this.error = false;
 
@@ -71,7 +71,7 @@ export default {
 
     },
     deleteGroup(){
-      this.$http.post('https://gym-management-system-cc.herokuapp.com/api/v1/groups/destroy', this.object).then(response => {
+      this.$http.post(this.$callHttp +'/api/v1/groups/destroy', this.object).then(response => {
       // success callback
         this.error = false;
         return response.json();

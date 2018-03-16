@@ -59,7 +59,7 @@ export default {
   created(){
     //dohvacanje svih članarina
     this.loading.memberships = true;
-    this.$http.get('https://gym-management-system-cc.herokuapp.com/api/v1/membership_types/index').then(response => {
+    this.$http.get(this.$callHttp +'/api/v1/membership_types/index').then(response => {
       // success callback
       this.loading.memberships = false;
       return response.json();

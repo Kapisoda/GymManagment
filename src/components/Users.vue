@@ -47,12 +47,8 @@
                   <i :class="activeClass"></i>
                 </a>
               </th>
-              <th>Mail</th>
-              <th style="cursor: pointer;" id="checkboxSpecial" v-on:click=" stringForSort='id'; activeClassFunction();">Id
-                <a class="headerIcons" v-if="stringForSort=='id'">
-                  <i :class="activeClass"></i>
-                </a>
-              </th>
+              <th>Datum isteka članarine</th>
+              <th>Broj kartice</th>
               <th>Status</th>
               <th>M/Ž</th>
               <th>Članarine</th>
@@ -65,8 +61,8 @@
               </td>
               <td v-on:click="singleUser(user.id)">{{user.first_name }}</td>
               <td v-on:click="singleUser(user.id)">{{user.last_name}}</td>
-              <td v-on:click="singleUser(user.id)">{{user.email}}</td>
-              <td v-on:click="singleUser(user.id)">{{user.id}}</td>
+              <td v-on:click="singleUser(user.id)">{{user.membership_ends_at}}</td>
+              <td v-on:click="singleUser(user.id)">{{user.code}}</td>
               <td v-on:click="singleUser(user.id)">{{user.status}}</td>
               <td v-on:click="singleUser(user.id)">{{user.sex}}</td>
               <td v-on:click="singleUser(user.id)">
@@ -104,7 +100,7 @@
   import filter from '../Filter.js'
   import SingleUser from './SingleUser.vue'
   import session from '../Session.js'
-
+  import moment from 'moment'
   export default {
 
     name: 'users',
@@ -158,7 +154,7 @@
       this.loading.membership = true
 
       //dohvacanje svih usera
-      this.$http.get('https://gym-management-system-cc.herokuapp.com/api/v1/users/index').then(response => {
+      this.$http.get(this.$callHttp +'/api/v1/users/index').then(response => {
         this.loading.users = false
         return response.json(); // success callback
       }, error => { /*rror callback*/
@@ -169,10 +165,13 @@
       }).then(data => { /*obrada podataka*/
         if (data.status == '401') session.sessionDestroy();
         this.users = data.users;
+        this.users.forEach(function (el) {
+          el.membership_ends_at = moment(el.membership_ends_at).format('DD.MM.YYYY');
+        });
       });
 
       //dohvacanje svih grupa
-      this.$http.get('https://gym-management-system-cc.herokuapp.com/api/v1/groups/index').then(response => {
+      this.$http.get(this.$callHttp + '/api/v1/groups/index').then(response => {
         this.loading.groups = false
         return response.json(); // success callback
       }, error => { /* error callback*/
@@ -193,7 +192,7 @@
       });
 
       //dohvaćanje svih članarina
-      this.$http.get('https://gym-management-system-cc.herokuapp.com/api/v1/membership_types/index').then(response => {
+      this.$http.get(this.$callHttp +'/api/v1/membership_types/index').then(response => {
         // success callback
         this.loading.membership = false
         return response.json();
