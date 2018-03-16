@@ -54,14 +54,14 @@
               <th>Članarine</th>
               <th>Grupe</th>
             </tr>
-            <tr class="list-group-item" style="cursor: pointer;" v-for="user in filterUsersSerch" :key="user.id">
+            <tr class="list-group-item" style="cursor: pointer;" v-for="(user, index) in filterUsersSerch" :key="user.id">
               <td>
                 <input type="checkbox" v-bind:id="user.id" v-bind:value="user.id" v-model="myTextEditBox">
                 <label v-bind:for="user.id"></label>
               </td>
               <td v-on:click="singleUser(user.id)">{{user.first_name }}</td>
               <td v-on:click="singleUser(user.id)">{{user.last_name}}</td>
-              <td v-on:click="singleUser(user.id)">{{user.membership_ends_at}}</td>
+              <td v-on:click="singleUser(user.id)">{{exdate[index]}}</td>
               <td v-on:click="singleUser(user.id)">{{user.code}}</td>
               <td v-on:click="singleUser(user.id)">{{user.status}}</td>
               <td v-on:click="singleUser(user.id)">{{user.sex}}</td>
@@ -131,7 +131,8 @@
           users: false,
           groups: false,
           membership: false
-        }
+        },
+        exdate: []
       }
     },
     watch: {
@@ -165,8 +166,9 @@
       }).then(data => { /*obrada podataka*/
         if (data.status == '401') session.sessionDestroy();
         this.users = data.users;
+        var self = this;
         this.users.forEach(function (el) {
-          el.membership_ends_at = moment(el.membership_ends_at).format('DD.MM.YYYY');
+          self.exdate.push(moment(el.membership_ends_at).locale("hr").format('L'));
         });
       });
 
