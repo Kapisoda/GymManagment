@@ -61,7 +61,7 @@
               </td>
               <td v-on:click="singleUser(user.id)">{{user.first_name }}</td>
               <td v-on:click="singleUser(user.id)">{{user.last_name}}</td>
-              <td v-on:click="singleUser(user.id)">{{exdate[index]}}</td>
+              <td v-on:click="singleUser(user.id)">{{exdate[user.id]}}</td>
               <td v-on:click="singleUser(user.id)">{{user.code}}</td>
               <td v-on:click="singleUser(user.id)">{{user.status}}</td>
               <td v-on:click="singleUser(user.id)">{{user.sex}}</td>
@@ -73,6 +73,7 @@
               </td>
             </tr>
           </table>
+  
         </div>
       </div>
       <a class="button-floater right btn-floating btn-large waves-effect waves-light red" v-on:click="startNewUser">
@@ -132,7 +133,7 @@
           groups: false,
           membership: false
         },
-        exdate: []
+        exdate: {}
       }
     },
     watch: {
@@ -168,7 +169,7 @@
         this.users = data.users;
         var self = this;
         this.users.forEach(function (el) {
-          self.exdate.push(moment(el.membership_ends_at).locale("hr").format('L'));
+          self.exdate[el.id] = moment(el.membership_ends_at).locale("hr").format('L');
         });
       });
 
