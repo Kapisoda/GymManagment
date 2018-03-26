@@ -89,7 +89,7 @@ export default {
     this.loading.groups = true;
     this.loading.member_attendances = true;
     this.loading.users = true;
-    this.$http.get(this.$callHttp +'/api/v1/member_attendances/index').then(response => {
+    this.$http.get(this.$callHttp +'/api/v1/member_attendances/index?count=20').then(response => {
        this.loading.member_attendances = false;
        return response.json();// success callback
      }, error => {
@@ -101,11 +101,8 @@ export default {
         if(data.status=='401')session.sessionDestroy();
        var self = this;
        data.member_attendances.reverse();
-       let j = 0;
       for(let i=0; i<data.member_attendances.length; i++){
         if(data.member_attendances[i].user.first_name){
-          j++;
-        if(j>19){break;};
          let obj={
          first_name: data.member_attendances[i].user.first_name,
            last_name: data.member_attendances[i].user.last_name,
@@ -150,16 +147,18 @@ this.loading.member_attendances = false;
   }).then(data => {/*obrada podataka*/
       if(data.status=='401')session.sessionDestroy();
       this.users = data.users;
-      var brojAktivnih = 0;
-      var brojNeaktivnih = 0;
-        data.users.forEach(function(el){
-          if(el.status=='active'){
-            brojAktivnih += 1;
-          }else{ brojNeaktivnih += 1; };
-        });
-      this.chartDataUser.push(['Aktivni', brojAktivnih]);
-      this.chartDataUser.push(['Neaktivni', brojNeaktivnih]);
     });
+
+    this.$http.get(this.$callHttp +'/api/v1/dashboards/index').then(response => {
+    /*success callback*/ return response.json();}, error => {/* error callback*/}).then(data => {
+        //obrada podataka*/
+       this.chartDataUser.push(['Aktivni', data.status.active_count]);
+       this.chartDataUser.push(['Neaktivni', data.status.inactive_count]);
+       this.chartDataUser.push(['Pauzirani', data.status.pause_count]);
+    });
+   
+
+
   },
   methods:{
     focusBlure(){

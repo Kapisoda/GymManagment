@@ -23,7 +23,13 @@ var SessionService = {
   sessionDestroy(){
     sessionJar.$session.destroy();
     location.reload();
-  }
+  },
+  setUsers (users){
+    sessionJar.$session.set('users', users);
+  },
+  getUsers (){
+    return sessionJar.$session.get('users') || false
+  },
 }
 
 export default SessionService

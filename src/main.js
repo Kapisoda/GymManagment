@@ -11,14 +11,16 @@ import VueChartkick from 'vue-chartkick'
 import Chart from 'chart.js'
 import jQuery from 'jquery'
 import 'materialize-css'
-const bugsnag = require('bugsnag-js')
-const bugsnagClient = bugsnag('b31ae9cc55512f16cd20807f489e9275')
+import {Pagination} from 'vue-pagination-2';
+Vue.component('pagination', Pagination);
+//const bugsnag = require('bugsnag-js')
+//const bugsnagClient = bugsnag('b31ae9cc55512f16cd20807f489e9275')
 
 // Initialize Vue before we start the BugsnagVue plugin
 
-const bugsnagVue = require('bugsnag-vue')
+//const bugsnagVue = require('bugsnag-vue')
 
-bugsnagClient.use(bugsnagVue(Vue))
+//bugsnagClient.use(bugsnagVue(Vue))
 //https://gms-test.herokuapp.com
 //https://gym-management-system-cc.herokuapp.com
 Vue.prototype.$callHttp = 'https://gms-test.herokuapp.com'

@@ -31,6 +31,7 @@
           <p>
             <input type="text" v-model="search" />
           </p>
+          <div v-for="(user, index) in filterUsersSerch" :key="user.id" ></div>
           <table id="customers">
             <tr>
               <th>
@@ -54,14 +55,14 @@
               <th>Članarine</th>
               <th>Grupe</th>
             </tr>
-            <tr class="list-group-item" style="cursor: pointer;" v-for="(user, index) in filterUsersSerch" :key="user.id">
+            <tr class="list-group-item" style="cursor: pointer;" v-for="(user, index) in filterUsersSerch" :key="user.id"> <!-- filterUsersSerch -->
               <td>
                 <input type="checkbox" v-bind:id="user.id" v-bind:value="user.id" v-model="myTextEditBox">
                 <label v-bind:for="user.id"></label>
               </td>
               <td v-on:click="singleUser(user.id)">{{user.first_name }}</td>
               <td v-on:click="singleUser(user.id)">{{user.last_name}}</td>
-              <td v-on:click="singleUser(user.id)">{{exdate[user.id]}}</td>
+              <td v-on:click="singleUser(user.id)">{{exdate[user.id]}}</td><!--exdate[user.id]-->
               <td v-on:click="singleUser(user.id)">{{user.code}}</td>
               <td v-on:click="singleUser(user.id)">{{user.status}}</td>
               <td v-on:click="singleUser(user.id)">{{user.sex}}</td>
@@ -72,8 +73,9 @@
                 <p v-for="gro in user.groups">{{gro.name}}</p>
               </td>
             </tr>
+           
           </table>
-  
+          <pagination class="pagColor"  :records="resultCount" :per-page="perPage" @paginate="setPage"></pagination>
         </div>
       </div>
       <a class="button-floater right btn-floating btn-large waves-effect waves-light red" v-on:click="startNewUser">
@@ -133,7 +135,11 @@
           groups: false,
           membership: false
         },
-        exdate: {}
+        exdate: {},
+        page: 1,
+        perPage: 10,
+        resultCount: 0
+        
       }
     },
     watch: {
@@ -154,7 +160,7 @@
       this.loading.users = true
       this.loading.groups = true
       this.loading.membership = true
-
+     // this.filterArray = { label: 'Aktivni', value: 'active'};
       //dohvacanje svih usera
       this.$http.get(this.$callHttp +'/api/v1/users/index').then(response => {
         this.loading.users = false
@@ -167,11 +173,11 @@
       }).then(data => { /*obrada podataka*/
         if (data.status == '401') session.sessionDestroy();
         this.users = data.users;
-        var self = this;
+         var self = this;
         this.users.forEach(function (el) {
           self.exdate[el.id] = moment(el.membership_ends_at).locale("hr").format('L');
-        });
-      });
+         });
+      }); 
 
       //dohvacanje svih grupa
       this.$http.get(this.$callHttp + '/api/v1/groups/index').then(response => {
@@ -219,6 +225,10 @@
       });
     },
     methods: {
+      setPage: function(page) {
+      this.page = page;
+      
+    },
       sendMail() {
         if (this.myTextEditBox.length < 1) {
           alert('Potrebno je odabrati barem jednog člana za slanje maila');
@@ -273,9 +283,15 @@
     },
     computed: {
       filterUsersSerch() {
+        this.resultCount = filter.foo(this.users, this.filterArray, this.stringForSort, this.search, this.ascDesc, this.membershipOption,
+          this.groupOption, this.filterArrayGender).length;
+            
+        var index = (this.page -1) * this.perPage;
         return filter.foo(this.users, this.filterArray, this.stringForSort, this.search, this.ascDesc, this.membershipOption,
-          this.groupOption, this.filterArrayGender);
-      }
+          this.groupOption, this.filterArrayGender).slice(index, index + this.perPage);
+          
+      },
+      
     },
     components: {
       Loader,
@@ -285,10 +301,17 @@
       appSingleUser: SingleUser
     }
   }
-
 </script>
 
 <style>
+
+  .pagColor nav{
+    background-color: #43C69C !important;
+    color: #43C69C !important;
+  }
+  .pagination li.active{
+    background-color: #43C69C !important;
+  }
   .button-floater {
     position: fixed;
     bottom: 2em;
