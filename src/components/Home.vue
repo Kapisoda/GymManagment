@@ -3,50 +3,74 @@
     <appNavbar></appNavbar>
     <loader v-if="loading.groups || loading.member_attendances || loading.users || loading.notes"></loader>
     <template v-else>
-    <div class="row" v-if="noUserError">
-      <div class="col s12">
-        <div class="danger">
-            <p><strong>Oprez!</strong> Korisnik ne postoji</p>
+      <div class="row" v-if="noUserError">
+        <div class="col s12">
+          <div class="danger">
+            <p>
+              <strong>Oprez!</strong> Korisnik ne postoji</p>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="row" >
-      <div class="col s12">
-        <h5>Kartice</h5>
-        <p><input  type="text" v-model="stringCard" autofocus/></p> <!--onblur="this.focus()"  v-on:blur="myFunctionHere()-->
+      <div class="row">
+        <div class="col s12">
+          <h5>Kartice</h5>
+          <p>
+            <input type="text" v-model="stringCard" autofocus/>
+          </p>
+          <!--onblur="this.focus()"  v-on:blur="myFunctionHere()-->
+        </div>
       </div>
-    </div>
-    <div class="row" >
-      <div class="col s4">
-        <h5>Poruke</h5>
-        <a class="button-floater btn-floating btn-large red" v-on:click="createNote">
+      <div class="row">
+        <div class="col s4">
+          <h5>Poruke</h5>
+          <a class="button-floater btn-floating btn-large red" v-on:click="createNote">
             <i class="large material-icons">mode_edit</i>
-        </a>
-        <div class="info" v-for="note in notes" >
-          <p><strong>{{note.author}}: </strong> {{note.body}} <i class="fa fa-close right" style="color:red; cursor: pointer" v-on:click="deleteMessage(note.id)"></i></p>
+          </a>
+          <div class="info" v-for="note in notes">
+            <p>
+              <strong>{{note.author}}: </strong> {{note.body}}
+              <i class="fa fa-close right" style="color:red; cursor: pointer" v-on:click="deleteMessage(note.id)"></i>
+            </p>
+          </div>
+        </div>
+        <div class="col s4">
+          <h5>Statistika</h5>
+          <pie-chart :data="chartData" :donut="true"></pie-chart>
+          <pie-chart :data="chartDataUser" :donut="true"></pie-chart>
+        </div>
+        <div class="col s4">
+          <h5>Dolasci</h5>
+          <div class="input-field col s6">
+            <label class="active" from="someDate">Datum za dolaske:</label>
+            <input id="someDate" type="date" v-model="someDate">
+          </div>
+          <p>Broj ukupnih dolazaka na odabrani dan:
+            <strong> {{attendanceNumber}}</strong>
+          </p>
+          <table id="customers">
+            <tr>
+              <th>Ime i prezime</th>
+              <th>Datum i vrijeme dolaska</th>
+              <th>Kartica</th>
+            </tr>
+            <tr class="list-group-item" v-for="user in usersAttendance" :key="user.id">
+              <td>{{user.first_name}} {{user.last_name}}</td>
+              <td>{{user.time}}</td>
+              <td>{{user.code}}</td>
+            </tr>
+          </table>
         </div>
       </div>
-      <div class="col s4">
-        <h5>Statistika</h5>
-       <pie-chart :data="chartData" :donut="true"></pie-chart>
-        <pie-chart :data="chartDataUser" :donut="true"></pie-chart>
-      </div>
-      <div class="col s4">
-        <h5>Dolasci</h5>
-        <div class="success" v-for="us in usersAttendance" >
-          <p><strong>{{us.first_name}} {{us.last_name}}  </strong>  {{us.time}}</p>
-        </div>
-      </div>
-    </div>
-      <modal name="createNoteModal" :scrollable="true" :draggable="true" height="auto" >
+      <modal name="createNoteModal" :scrollable="true" :draggable="true" height="auto">
         <appNewNote @interface="focusBlure"></appNewNote>
       </modal>
       <modal name="singleUser" :scrollable="true" :draggable="true" height="auto">
         <appSingleUser :singleUserObject="singleUserObj"></appSingleUser>
       </modal>
-      </template>
+    </template>
   </div>
 </template>
+
 
 <script>
 import Loader from './Loader.vue'
@@ -81,7 +105,9 @@ export default {
         groups: false,
         member_attendances: false,
         users: false
-      }
+      },
+      someDate: '',
+      attendanceNumber: 0
     }
   },
   created(){
@@ -89,29 +115,35 @@ export default {
     this.loading.groups = true;
     this.loading.member_attendances = true;
     this.loading.users = true;
-    this.$http.get(this.$callHttp +'/api/v1/member_attendances/index?count=20').then(response => {
-       this.loading.member_attendances = false;
-       return response.json();// success callback
-     }, error => {
-       if(error.status){
-      console.log(`Došlo je do pogreške ${error.status}`);
-       this.error = true;
-       } /*rror callback*/  }).then(data => {/*obrada podataka usersAttendance*/
-
-        if(data.status=='401')session.sessionDestroy();
-       var self = this;
-       data.member_attendances.reverse();
-      for(let i=0; i<data.member_attendances.length; i++){
-        if(data.member_attendances[i].user.first_name){
-         let obj={
-         first_name: data.member_attendances[i].user.first_name,
-           last_name: data.member_attendances[i].user.last_name,
-           time: moment(data.member_attendances[i].created_at).format('DD.MM.YYYY, HH:mm')
-         }
-        self.usersAttendance.push(obj);
-       };
-     }
-   });
+  //  this.$http.get(this.$callHttp +'/api/v1/member_attendances/index?count=20').then(response => {
+  //     this.loading.member_attendances = false;
+  //     return response.json();// success callback
+  //   }, error => {
+  //     if(error.status){
+  //    console.log(`Došlo je do pogreške ${error.status}`);
+  //     this.error = true;
+  //     } /*rror callback*/  }).then(data => {/*obrada podataka usersAttendance*/
+//
+  //      if(data.status=='401')session.sessionDestroy();
+  //     var self = this;
+  //     data.member_attendances.reverse();
+       
+  //    for(let i=0; i<data.member_attendances.length; i++){
+  //      if(data.member_attendances[i].user.first_name){
+  //       if(data.member_attendances[i].user.code){
+  //        var res = data.member_attendances[i].user.code.split('?')[0];
+  //        res = res.replace('%','');
+  //       }
+  //       let obj={
+  //       first_name: data.member_attendances[i].user.first_name,
+  //         last_name: data.member_attendances[i].user.last_name,
+  //         time: moment(data.member_attendances[i].created_at).format('DD.MM.YYYY, HH:mm'),
+  //         code: res
+  //       }
+  //      self.usersAttendance.push(obj);
+  //     };
+  //   }
+  // });
 this.loading.member_attendances = false;
 
     this.$http.get(this.$callHttp +'/api/v1/groups/index').then(response => {
@@ -156,11 +188,15 @@ this.loading.member_attendances = false;
        this.chartDataUser.push(['Neaktivni', data.status.inactive_count]);
        this.chartDataUser.push(['Pauzirani', data.status.pause_count]);
     });
+    this.someDate = moment().format('YYYY-MM-DD');
+    
    
+     
 
 
   },
   methods:{
+    
     focusBlure(){
 
     },
@@ -237,8 +273,34 @@ this.loading.member_attendances = false;
 
 
 
+    },
+    someDate(){
+      this.$http.get(this.$callHttp +`/api/v1//member_attendances/show?date=${this.someDate}`).then(response => {
+    /*success callback*/ return response.json();}, error => { console.log(`error is ${error.status}`); }).then(data => {
+        //obrada podataka*/
+        this.attendanceNumber = data.member_attendances.length;
+        this.usersAttendance = [];
+        var self = this;
+       data.member_attendances.reverse();
+       
+      for(let i=0; i<data.member_attendances.length; i++){
+        if(data.member_attendances[i].user.first_name){
+         if(data.member_attendances[i].user.code){
+          var res = data.member_attendances[i].user.code.split('?')[0];
+          res = res.replace('%','');
+         }
+         let obj={
+         first_name: data.member_attendances[i].user.first_name,
+           last_name: data.member_attendances[i].user.last_name,
+           time: moment(data.member_attendances[i].created_at).format('DD.MM.YYYY, HH:mm'),
+           code: res
+         }
+        self.usersAttendance.push(obj);
+       };
+      }
+    });
     }
-  },
+  }
 }
 </script>
 
@@ -278,5 +340,31 @@ h5{
     margin-bottom: 15px;
     padding: 4px 12px;
 }
+#customers {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
 
+  #customers td,
+  #customers th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+
+  #customers tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+
+  #customers tr:hover {
+    background-color: #ddd;
+  }
+
+  #customers th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #43C69C;
+    color: white;
+  }
 </style>

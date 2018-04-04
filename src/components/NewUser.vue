@@ -154,6 +154,7 @@ export default {
       error: false,
       newUserObject: {
         user: {
+          id: '',
           first_name: '',
           last_name: '',
           birth_date: '',
@@ -186,7 +187,8 @@ export default {
         membership: false,
         groups: false
       },
-      i: 0
+      i: 0,
+      flag: 0
 
     }
   },
@@ -210,6 +212,22 @@ export default {
     // Show the current tab, and add an "active" class to the button that opened the tab
     document.getElementById(nameTab).style.display = "block";
      
+    },
+    addPayMembership(){
+      console.log(this.newUserObject);
+      this.$http.post(this.$callHttp + '/api/v1/extend_user_memberships/create', this.newUserObject).then(response => {
+          // success callback
+          this.error = false;
+          return response.json();
+        }, error => {
+          // error callback
+          if (error.status) {
+            console.log(`error is ${error.status}`);
+            this.error = true;
+          }
+        }).then(data => {
+          location.reload();
+        });
     },
     createNewUser(){
       this.errorsArray=[];
@@ -249,14 +267,26 @@ export default {
         }, error => {
           // error callback
           if(error.status){
-            console.logt(`Došlo je do pogreške ${error.status}`);
+            console.log(`Došlo je do pogreške ${error.status}`);
             this.error = true;
         }
         }).then(data => {
           if(data.status=='401')session.sessionDestroy();
           //obrada podataka
-          location.reload();
+          this.flag = 1;
+          console.log(this.flag);
+          console.log('sinkopa');
+           console.log(data);
+           console.log(data.user.id);
+          this.newUserObject.user.id=data.user.id;
+          
         });
+        var self = this
+        setTimeout(function(){ self.addPayMembership() }, 500);
+        
+      
+        
+      
 
       }
     }

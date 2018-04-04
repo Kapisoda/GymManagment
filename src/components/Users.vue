@@ -18,7 +18,7 @@
 
           <p>M/Ž:</p>
           <v-select v-model="filterArrayGender" :options="[{ label: 'M', value: 'm'},{ label: 'Ž', value: 'ž'}]"></v-select>
-          </br>
+          <br>
           <center>
             <button type="button" class="btn waves-effect waves-light teal" name="action" v-on:click="sendMail">Pošalji mail
               <i class="fa fa-envelope-o"></i>
@@ -63,7 +63,7 @@
               <td v-on:click="singleUser(user.id)">{{user.first_name }}</td>
               <td v-on:click="singleUser(user.id)">{{user.last_name}}</td>
               <td v-on:click="singleUser(user.id)">{{exdate[user.id]}}</td><!--exdate[user.id]-->
-              <td v-on:click="singleUser(user.id)">{{user.code}}</td>
+              <td v-on:click="singleUser(user.id)">{{cardNumber[user.id]}}</td>
               <td v-on:click="singleUser(user.id)">{{user.status}}</td>
               <td v-on:click="singleUser(user.id)">{{user.sex}}</td>
               <td v-on:click="singleUser(user.id)">
@@ -136,6 +136,7 @@
           membership: false
         },
         exdate: {},
+        cardNumber: {},
         page: 1,
         perPage: 10,
         resultCount: 0
@@ -176,6 +177,10 @@
          var self = this;
         this.users.forEach(function (el) {
           self.exdate[el.id] = moment(el.membership_ends_at).locale("hr").format('L');
+          if(el.code){
+          let res = el.code.split('?')[0];
+          self.cardNumber[el.id] = res.replace('%','');
+          }
          });
       }); 
 
