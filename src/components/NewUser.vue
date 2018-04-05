@@ -213,22 +213,7 @@ export default {
     document.getElementById(nameTab).style.display = "block";
      
     },
-    addPayMembership(){
-      console.log(this.newUserObject);
-      this.$http.post(this.$callHttp + '/api/v1/extend_user_memberships/create', this.newUserObject).then(response => {
-          // success callback
-          this.error = false;
-          return response.json();
-        }, error => {
-          // error callback
-          if (error.status) {
-            console.log(`error is ${error.status}`);
-            this.error = true;
-          }
-        }).then(data => {
-          location.reload();
-        });
-    },
+    
     createNewUser(){
       this.errorsArray=[];
       if(!this.newUserObject.user.first_name) this.errorsArray.push("Potrebo je upisati ime korisnika.");
@@ -273,20 +258,10 @@ export default {
         }).then(data => {
           if(data.status=='401')session.sessionDestroy();
           //obrada podataka
-          this.flag = 1;
-          console.log(this.flag);
-          console.log('sinkopa');
-           console.log(data);
-           console.log(data.user.id);
           this.newUserObject.user.id=data.user.id;
+          location.reload();
           
         });
-        var self = this
-        setTimeout(function(){ self.addPayMembership() }, 500);
-        
-      
-        
-      
 
       }
     }
