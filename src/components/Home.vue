@@ -252,7 +252,7 @@ this.loading.member_attendances = false;
       var nesto = _.includes(this.stringCard, '?');
       if(nesto){
       this.stringCard = this.stringCard.toLowerCase();
-      console.log("broj kartice: "+ this.stringCard);
+      
       this.numberUnderline = this.stringCard.split("?").length - 1;
       if(this.numberUnderline==2){
         this.users.forEach(function(x) {
