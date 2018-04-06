@@ -178,7 +178,17 @@ this.loading.member_attendances = false;
     }
   }).then(data => {/*obrada podataka*/
       if(data.status=='401')session.sessionDestroy();
-      this.users = data.users;
+      
+      
+      var self = this;
+      data.users.forEach(function(el){
+        if(typeof el !== 'undefined'){
+        if(typeof el.code !== 'undefined' && el.code !== null && el.code !== ""){
+          self.users.push(el);
+        }};
+      })
+      console.log(this.users)
+      
     });
 
     this.$http.get(this.$callHttp +'/api/v1/dashboards/index').then(response => {
@@ -239,11 +249,14 @@ this.loading.member_attendances = false;
     stringCard(){ //_.includes(this.stringCard, '_')
       var tempError = [];
       var self = this;
+      var nesto = _.includes(this.stringCard, '?');
+      if(nesto){
       this.stringCard = this.stringCard.toLowerCase();
-      this.numberUnderline = this.stringCard.split("?").length - 1
+      console.log("broj kartice: "+ this.stringCard);
+      this.numberUnderline = this.stringCard.split("?").length - 1;
       if(this.numberUnderline==2){
         this.users.forEach(function(x) {
-          if(x.code==self.stringCard){
+          if(x.code===self.stringCard){
             //console.log(x);
             self.singleUserObj=x;
             self.stringCard = '';
@@ -268,11 +281,7 @@ this.loading.member_attendances = false;
         self.stringCard='';
         self.noUserError = false;
       }, 5000);
-
-
-
-
-
+      }
     },
     someDate(){
       this.$http.get(this.$callHttp +`/api/v1//member_attendances/show?date=${this.someDate}`).then(response => {

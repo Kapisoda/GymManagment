@@ -433,7 +433,7 @@ export default {
             }
         }, */
       confirmArrival() {
-        //chosenMembershipthis.errorsArray=[];
+        this.errorsArray=[];
         if (!this.object.user.first_name) this.errorsArray.push("Potrebo je upisati ime korisnika.");
         if (!this.object.user.last_name) this.errorsArray.push("Potrebo je upisati prezime korisnika.");
         if (!this.object.user.code) this.errorsArray.push("Potrebo je zapisati korisnikovu karticu.");
@@ -473,6 +473,14 @@ export default {
         }
       },
       addOneMonth() {
+        this.errorsArray=[];
+
+        if (!this.object.user.first_name) this.errorsArray.push("Potrebo je upisati ime korisnika.");
+        if (!this.object.user.last_name) this.errorsArray.push("Potrebo je upisati prezime korisnika.");
+        if (!this.object.user.code) this.errorsArray.push("Potrebo je zapisati korisnikovu karticu.");
+        if (!this.statusSelect) this.errorsArray.push("Potrebo je odabrati aktivnost korisnika.");
+
+        if (this.errorsArray.length == 0) {
         this.object.user.membership_starts_at = moment().add().format('YYYY-MM-DD');
         this.object.user.membership_ends_at = moment().add(1, 'M').format('YYYY-MM-DD'); //this.object.user.membership_ends_at
 
@@ -491,7 +499,7 @@ export default {
 
         });
         this.changeUser();
-
+        }
 
       },
       changeUser() {
@@ -565,10 +573,12 @@ export default {
       this.object.user.last_name = this.singleUserObject.last_name;
       this.object.user.birth_date = this.singleUserObject.birth_date;
       this.object.user.email = this.singleUserObject.email;
-      this.statusSelect = this.singleUserObject.status;
+      if(this.singleUserObject.status){ this.statusSelect = this.singleUserObject.status; }
       this.object.user.OIB = this.singleUserObject.OIB;
       this.object.user.address = this.singleUserObject.address;
-      this.genderSelect = this.singleUserObject.sex;
+
+      if(this.singleUserObject.sex){this.genderSelect = this.singleUserObject.sex;}
+
       this.object.user.code = this.singleUserObject.code;
       this.doc = this.singleUserObject.code;
       this.object.user.membership_starts_at = this.singleUserObject.membership_starts_at;
@@ -582,6 +592,7 @@ export default {
 
       this.time = moment(this.object.user.membership_ends_at).locale("hr").format('L');
       var self = this;
+      if(this.singleUserObject.membership_types){
       this.singleUserObject.membership_types.forEach(function (el) {
         let obj = {
           label: el.name,
@@ -595,6 +606,8 @@ export default {
         self.membershipsActive.push(obj);
         self.membershipOption = self.membershipsActive;
       });
+      }
+      if(this.singleUserObject.groups){
       this.singleUserObject.groups.forEach(function (el) {
         let obj = {
           label: el.name,
@@ -608,7 +621,7 @@ export default {
         self.groupsActive.push(obj);
         self.groupOption = self.groupsActive;
       });
-
+      }
       if (this.membershipsActive.length == 1) {
         this.chosenMembership = this.membershipsActive[0];
       }
