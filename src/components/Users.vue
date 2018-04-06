@@ -178,7 +178,7 @@
         this.users.forEach(function (el) {
           self.exdate[el.id] = moment(el.membership_ends_at).locale("hr").format('L');
           if(el.code){
-          let res = el.code.split('_')[0];
+          let res = el.code.split('?')[0];
           self.cardNumber[el.id] = res.replace('%','');
           }
          });
