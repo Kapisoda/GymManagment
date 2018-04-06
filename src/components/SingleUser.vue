@@ -62,7 +62,7 @@
               <button class="tablinks" v-on:click="openEvent($event,'obavezneInformacije')">Obavezne informacije</button>
               <button class="tablinks" v-on:click="openEvent($event,'dodatneInformacije')">Dodatne informacije</button>
               <button class="tablinks" v-on:click="openEvent($event,'dolasci')">Dolasci</button>
-              <button class="tablinks" v-on:click="openEvent($event,'placeneClanarine')">Clanarine</button>
+              <button class="tablinks" v-on:click="openEvent($event,'placeneClanarine')">Članarine</button>
           </div>
 
           <div id="obavezneInformacije" class="tabcontent">
@@ -434,16 +434,16 @@ export default {
         }, */
       confirmArrival() {
         this.errorsArray=[];
-        if (!this.object.user.first_name) this.errorsArray.push("Potrebo je upisati ime korisnika.");
-        if (!this.object.user.last_name) this.errorsArray.push("Potrebo je upisati prezime korisnika.");
-        if (!this.object.user.code) this.errorsArray.push("Potrebo je zapisati korisnikovu karticu.");
-        if (!this.statusSelect) this.errorsArray.push("Potrebo je odabrati aktivnost korisnika.");
+        if (!this.object.user.first_name) this.errorsArray.push("Potrebno je upisati ime korisnika.");
+        if (!this.object.user.last_name) this.errorsArray.push("Potrebno je upisati prezime korisnika.");
+        if (!this.object.user.code) this.errorsArray.push("Potrebno je zapisati korisnikovu karticu.");
+        if (!this.statusSelect) this.errorsArray.push("Potrebno je odabrati aktivnost korisnika.");
         /*if(this.statusSelect == 'pause'){
           this.object.user.status = 'active';
           this.flagToChangeUser = true;
           this.changeUser();
         }*/
-        if (!this.membershipOption || this.membershipOption.length == 0) this.errorsArray.push("Potrebo je odabrati članarinu korisnika.");
+        if (!this.membershipOption || this.membershipOption.length == 0) this.errorsArray.push("Potrebno je odabrati članarinu korisnika.");
         //if(!this.groupOption || this.groupOption.length == 0) this.errorsArray.push("Potrebo je odabrati grupu korisnika.");
         if (this.errorsArray.length == 0) {
           this.noticeMessage = '';
@@ -474,10 +474,10 @@ export default {
       },
       addOneMonth() {
         this.errorsArray=[];
-        if (!this.object.user.first_name) this.errorsArray.push("Potrebo je upisati ime korisnika.");
-        if (!this.object.user.last_name) this.errorsArray.push("Potrebo je upisati prezime korisnika.");
-        if (!this.object.user.code) this.errorsArray.push("Potrebo je zapisati korisnikovu karticu.");
-        if (!this.statusSelect) this.errorsArray.push("Potrebo je odabrati aktivnost korisnika.");
+        if (!this.object.user.first_name) this.errorsArray.push("Potrebno je upisati ime korisnika.");
+        if (!this.object.user.last_name) this.errorsArray.push("Potrebno je upisati prezime korisnika.");
+        if (!this.object.user.code) this.errorsArray.push("Potrebno je zapisati korisnikovu karticu.");
+        if (!this.statusSelect) this.errorsArray.push("Potrebno je odabrati aktivnost korisnika.");
 
         if (this.errorsArray.length == 0) {
         this.object.user.membership_starts_at = moment().add().format('YYYY-MM-DD');
@@ -504,11 +504,11 @@ export default {
       changeUser() {
         //alert(this.object.user.description);
         this.errorsArray = [];
-        if (!this.object.user.first_name) this.errorsArray.push("Potrebo je upisati ime korisnika.");
-        if (!this.object.user.last_name) this.errorsArray.push("Potrebo je upisati prezime korisnika.");
-        if (!this.object.user.code) this.errorsArray.push("Potrebo je zapisati korisnikovu karticu.");
-        if (!this.statusSelect) this.errorsArray.push("Potrebo je odabrati aktivnost korisnika.");
-        if (!this.membershipOption || this.membershipOption.length == 0) this.errorsArray.push("Potrebo je odabrati članarinu korisnika.");
+        if (!this.object.user.first_name) this.errorsArray.push("Potrebno je upisati ime korisnika.");
+        if (!this.object.user.last_name) this.errorsArray.push("Potrebno je upisati prezime korisnika.");
+        if (!this.object.user.code) this.errorsArray.push("Potrebno je zapisati korisnikovu karticu.");
+        if (!this.statusSelect) this.errorsArray.push("Potrebno je odabrati aktivnost korisnika.");
+        if (!this.membershipOption || this.membershipOption.length == 0) this.errorsArray.push("Potrebno je odabrati članarinu korisnika.");
         //if(!this.groupOption || this.groupOption.length == 0) this.errorsArray.push("Potrebo je odabrati grupu korisnika.");
         if (this.errorsArray.length == 0) {
           var self = this;
