@@ -178,7 +178,13 @@ this.loading.member_attendances = false;
     }
   }).then(data => {/*obrada podataka*/
       if(data.status=='401')session.sessionDestroy();
-      this.users = data.users;
+      var self = this;
+      data.users.forEach(function(el){
+        if(typeof el !== 'undefined'){
+        if(typeof el.code !== 'undefined' && el.code !== null && el.code !== ""){
+          self.users.push(el);
+        }};
+      });
     });
 
     this.$http.get(this.$callHttp +'/api/v1/dashboards/index').then(response => {
@@ -240,7 +246,7 @@ this.loading.member_attendances = false;
       var tempError = [];
       var self = this;
       this.stringCard = this.stringCard.toLowerCase();
-      this.numberUnderline = this.stringCard.split("?").length - 1
+      this.numberUnderline = this.stringCard.split("_").length - 1
       if(this.numberUnderline==2){
         this.users.forEach(function(x) {
           if(x.code==self.stringCard){
