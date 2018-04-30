@@ -36,7 +36,9 @@
         <div class="col s4">
           <h5>Statistika</h5>
           <pie-chart :data="chartData" :donut="true"></pie-chart>
+          <p style="text-align: center;">Ukupan broj korisnika: <b>{{userNumber}}</b></p>
           <pie-chart :data="chartDataUser" :donut="true"></pie-chart>
+
         </div>
         <div class="col s4">
           <h5>Dolasci</h5>
@@ -107,7 +109,8 @@ export default {
         users: false
       },
       someDate: '',
-      attendanceNumber: 0
+      attendanceNumber: 0,
+      userNumber: 0
     }
   },
   created(){
@@ -178,17 +181,14 @@ this.loading.member_attendances = false;
     }
   }).then(data => {/*obrada podataka*/
       if(data.status=='401')session.sessionDestroy();
-      
-      
       var self = this;
+      this.userNumber = data.users.length;
       data.users.forEach(function(el){
         if(typeof el !== 'undefined'){
         if(typeof el.code !== 'undefined' && el.code !== null && el.code !== ""){
           self.users.push(el);
         }};
-      })
-      console.log(this.users)
-      
+      });
     });
 
     this.$http.get(this.$callHttp +'/api/v1/dashboards/index').then(response => {
