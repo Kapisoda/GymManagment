@@ -45,14 +45,18 @@ var filterUsers = {
       });
       }
 
-      if(gender){
+    if(gender){
       result = result.filter(function(user) {
             return user.sex == gender.value;
      });
      }
-
-
-    return _.orderBy(result, string, ascDesc);
+     
+  
+      return _.orderBy(result, string, ascDesc);
+    
+    
+    
+    
 
   }
 }

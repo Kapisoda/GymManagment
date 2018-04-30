@@ -48,28 +48,28 @@
                   <i :class="activeClass"></i>
                 </a>
               </th>
-              <th>Datum isteka članarine</th>
+              <th style="cursor: pointer;" v-on:click="stringForSort='membership_starts_at'; activeClassFunction();">Datum isteka članarine<a class="headerIcons" v-if="stringForSort=='membership_starts_at'">
+                  <i :class="activeClass"></i>
+                </a></th>
               <th>Broj kartice</th>
               <th>Status</th>
-              <th>M/Ž</th>
               <th>Članarine</th>
               <th>Grupe</th>
             </tr>
             <tr class="list-group-item" style="cursor: pointer;" v-for="(user, index) in filterUsersSerch" :key="user.id"> <!-- filterUsersSerch -->
-              <td>
+              <td  >
                 <input type="checkbox" v-bind:id="user.id" v-bind:value="user.id" v-model="myTextEditBox">
                 <label v-bind:for="user.id"></label>
               </td>
-              <td v-on:click="singleUser(user.id)">{{user.first_name }}</td>
-              <td v-on:click="singleUser(user.id)">{{user.last_name}}</td>
-              <td v-on:click="singleUser(user.id)">{{exdate[user.id]}}</td><!--exdate[user.id]-->
-              <td v-on:click="singleUser(user.id)">{{cardNumber[user.id]}}</td>
-              <td v-on:click="singleUser(user.id)">{{user.status}}</td>
-              <td v-on:click="singleUser(user.id)">{{user.sex}}</td>
-              <td v-on:click="singleUser(user.id)">
+              <td  v-on:click="singleUser(user.id)">{{user.first_name }}</td>
+              <td   v-on:click="singleUser(user.id)">{{user.last_name}}</td>
+              <td   v-on:click="singleUser(user.id)">{{exdate[user.id]}}</td><!--exdate[user.id]-->
+              <td   v-on:click="singleUser(user.id)">{{cardNumber[user.id]}}</td>
+              <td v-bind:style="{ color: activeColor[user.id]}"  v-on:click="singleUser(user.id)">{{user.status}}</td>
+              <td   v-on:click="singleUser(user.id)">
                 <p v-for="mem in user.membership_types">{{mem.name}}</p>
               </td>
-              <td v-on:click="singleUser(user.id)">
+              <td  v-on:click="singleUser(user.id)">
                 <p v-for="gro in user.groups">{{gro.name}}</p>
               </td>
             </tr>
@@ -111,9 +111,9 @@
       return {
         error: false,
         activeClass: '',
-        ascDesc: '',
+        ascDesc: 'desc',
         stringForSortCheck: '',
-        stringForSort: 'first_name',
+        stringForSort: 'membership_starts_at',
         users: [],
         searchCards: '',
         search: '',
@@ -138,8 +138,9 @@
         exdate: {},
         cardNumber: {},
         page: 1,
-        perPage: 10,
-        resultCount: 0
+        perPage: 20,
+        resultCount: 0,
+        activeColor: {}
         
       }
     },
@@ -176,6 +177,13 @@
         this.users = data.users;
          var self = this;
         this.users.forEach(function (el) {
+          if(el.status=='active'){
+            self.activeColor[el.id] = '#43C69C';
+          }else{
+            self.activeColor[el.id] = '#ff7675';
+          }
+
+
           self.exdate[el.id] = moment(el.membership_ends_at).locale("hr").format('L');
           if(el.code){
           let res = el.code.split('_')[0];
