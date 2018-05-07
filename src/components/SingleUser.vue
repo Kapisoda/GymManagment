@@ -49,12 +49,13 @@
         </div>
         </div>
         <div class="row" style="margin: 0;">
-        <div class="input-field col s12">
+      <div class="input-field col s12">  
           <center>
             <button v-on:click="changeUser(1)" class="buttonClass waves-effect waves-light btn" >Zapiši</button>
           </center>
         </div>
         </div>
+        
       </div>
       <div v-else>
 
@@ -103,6 +104,13 @@
       
       </div>
       <div class="row">
+          <div class="field col s12">
+          <label class="active" for="groups">Grupe</label>
+          <br />
+          <v-select multiple :disabled="disabled" v-model="groupOption" :options="groupsForPick"></v-select>
+        </div>
+      </div>
+      <div class="row">
         <div class="input-field col s6">
           <input :disabled="disabled" id="from" type="date" v-model="object.user.membership_starts_at">
           <label class="active" for="from">Trajanje članarine od:</label>
@@ -146,13 +154,7 @@
           <v-select :disabled="disabled" v-model="genderSelect" :options="[{ label: 'M', value: 'm'},{ label: 'Ž', value: 'ž'}]"></v-select>
         </div>
       </div>
-      <div class="row">
-          <div class="field col s12">
-          <label class="active" for="groups">Grupe</label>
-          <br />
-          <v-select multiple :disabled="disabled" v-model="groupOption" :options="groupsForPick"></v-select>
-        </div>
-      </div>
+      
         
       
       <div class="row">
@@ -219,13 +221,18 @@
       </div>
       
     <div class="row" v-if="disabled">
-      <div class="input-field col s6">
+      <div class="input-field col s5">
         <button v-on:click="changeHandler" class="buttonClass waves-effect waves-light btn">Promjeni informacije</button>
       </div>
-      <div class="input-field col s6" v-if="statusSelect != 'inactive'">
+      <div class="input-field col s2">
+        <center>
+            <button class="waves-effect orange btn" v-on:click="setPause">Pauza</button>
+        </center>
+      </div>
+      <div class="input-field col s5" v-if="statusSelect != 'inactive'">
           <button v-on:click="confirmArrival"  class="buttonClass waves-effect waves-light btn">Potvrdi dolazak</button>
       </div>
-      <div class="input-field col s6" v-else>
+      <div class="input-field col s5" v-else>
           <button v-on:click="bonusArrival"  class="buttonClass waves-effect green btn">Bonus dolazak</button>
       </div>
     </div>
@@ -330,6 +337,10 @@ export default {
       }
     },
     methods: {
+      setPause(){
+      this.statusSelect={ label: 'Pauza', value: 'pause'};
+      this.changeUser();
+      },
       openEvent(evt, nameTab) {
 
         var i, tabcontent, tablinks;
