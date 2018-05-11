@@ -52,20 +52,27 @@
           <v-select multiple v-model="membershipOption" :options="membershipsForPick"></v-select>
         </div>
       </div>
+      <div class="row">
+        <div class="field col s12">
+          <label class="active" for="groups">Grupe</label>
+          <br />
+          <v-select multiple v-model="groupOption" :options="groupsForPick"></v-select>
+        </div>
+      </div>
 
       </div>
 
       <div id="dodatneInformacije" class="tabcontent">
           <h3>Dodatne informacije</h3>
           <div class="row">
-        <div class="input-field col s6">
+        <div class="input-field col s12">
           <input id="Address" type="text" class="validate" v-model="newUserObject.user.address">
           <label  for="Address">Adresa</label>
         </div>
-        <div class="input-field col s6">
+        <!--<div class="input-field col s6">
           <input id="OIB" type="text" class="validate" v-model="newUserObject.user.OIB">
           <label for="OIB">OIB</label>
-        </div>
+        </div> -->
         </div>
         <div class="row">
         <div class="input-field col s6">
@@ -88,13 +95,7 @@
           <v-select v-model="genderSelect" :options="[{ label: 'M', value: 'm'},{ label: 'Ž', value: 'ž'}]"></v-select>
         </div>
       </div>
-      <div class="row">
-        <div class="field col s12">
-          <label class="active" for="groups">Grupe</label>
-          <br />
-          <v-select multiple v-model="groupOption" :options="groupsForPick"></v-select>
-        </div>
-      </div>
+      
       </div>
 
 
