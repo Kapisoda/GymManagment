@@ -332,7 +332,9 @@ export default {
         doc: '',
         numberOfEnter: 0,
         attendance: [],
-        membershipsAll: []
+        membershipsAll: [],
+        tempMbership_starts_at: '',
+        tempMembership_ends_at: ''
 
       }
     },
@@ -483,17 +485,7 @@ export default {
           }
         }
       },
-      addOneMonth() {
-        this.errorsArray=[];
-        if (!this.object.user.first_name) this.errorsArray.push("Potrebno je upisati ime korisnika.");
-        if (!this.object.user.last_name) this.errorsArray.push("Potrebno je upisati prezime korisnika.");
-        if (!this.object.user.code) this.errorsArray.push("Potrebno je zapisati korisnikovu karticu.");
-        if (!this.statusSelect) this.errorsArray.push("Potrebno je odabrati aktivnost korisnika.");
-
-        if (this.errorsArray.length == 0) {
-        this.object.user.membership_starts_at = moment().add().format('YYYY-MM-DD');
-        this.object.user.membership_ends_at = moment().add(1, 'M').format('YYYY-MM-DD'); //this.object.user.membership_ends_at
-
+      extendMembership(){
         this.$http.post(this.$callHttp + '/api/v1/extend_user_memberships/create', this.object).then(response => {
           // success callback
           this.error = false;
@@ -508,6 +500,33 @@ export default {
           if (data.status == '401') session.sessionDestroy();
 
         });
+      },
+      addOneMonth() {
+        this.errorsArray=[];
+        if (!this.object.user.first_name) this.errorsArray.push("Potrebno je upisati ime korisnika.");
+        if (!this.object.user.last_name) this.errorsArray.push("Potrebno je upisati prezime korisnika.");
+        if (!this.object.user.code) this.errorsArray.push("Potrebno je zapisati korisnikovu karticu.");
+        if (!this.statusSelect) this.errorsArray.push("Potrebno je odabrati aktivnost korisnika.");
+
+        if (this.errorsArray.length == 0) {
+        this.object.user.membership_starts_at = moment().add().format('YYYY-MM-DD');
+        this.object.user.membership_ends_at = moment().add(1, 'M').format('YYYY-MM-DD'); //this.object.user.membership_ends_at
+
+        /*this.$http.post(this.$callHttp + '/api/v1/extend_user_memberships/create', this.object).then(response => {
+          // success callback
+          this.error = false;
+          return response.json();
+        }, error => {
+          // error callback
+          if (error.status) {
+            console.log(`error is ${error.status}`);
+            this.error = true;
+          }
+        }).then(data => {
+          if (data.status == '401') session.sessionDestroy();
+
+        }); */
+        this.extendMembership();
         this.changeUser();
         }
 
@@ -523,7 +542,9 @@ export default {
         //if(!this.groupOption || this.groupOption.length == 0) this.errorsArray.push("Potrebo je odabrati grupu korisnika.");
         if (this.errorsArray.length == 0) {
           var self = this;
-
+          if (this.tempMembership_ends_at != this.object.user.membership_ends_at){
+            this.extendMembership();
+          }
           //if(!this.flagToChangeUser){
           if (this.statusSelect) {
             this.object.user.status = this.statusSelect.value;
@@ -533,8 +554,7 @@ export default {
               this.object.user.membership_pause_at = '';
             }
           }
-          //}
-
+          
           if (this.genderSelect) {
             this.object.user.sex = this.genderSelect.value;
           }
@@ -593,6 +613,7 @@ export default {
       this.doc = this.singleUserObject.code;
       this.object.user.membership_starts_at = this.singleUserObject.membership_starts_at;
       this.object.user.membership_ends_at = this.singleUserObject.membership_ends_at;
+      this.tempMembership_ends_at = this.object.user.membership_ends_at;
       this.object.user.phone_number = this.singleUserObject.phone_number;
       this.object.user.description = this.singleUserObject.description;
 
