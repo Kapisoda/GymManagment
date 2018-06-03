@@ -48,9 +48,7 @@
                   <i :class="activeClass"></i>
                 </a>
               </th>
-              <th style="cursor: pointer;" v-on:click="stringForSort='membership_starts_at'; activeClassFunction();">Datum isteka članarine<a class="headerIcons" v-if="stringForSort=='membership_starts_at'">
-                  <i :class="activeClass"></i>
-                </a></th>
+              <th>Datum isteka članarine</th>
               <th>Broj kartice</th>
               <th>Status</th>
               <th>Članarine</th>
