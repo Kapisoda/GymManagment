@@ -23,7 +23,7 @@ Vue.component('pagination', Pagination);
 //bugsnagClient.use(bugsnagVue(Vue))
 //https://gms-test.herokuapp.com
 //https://gym-management-system-cc.herokuapp.com
-Vue.prototype.$callHttp = 'https://gms-test.herokuapp.com'
+Vue.prototype.$callHttp = 'https://gym-management-system-cc.herokuapp.com'
 
 Vue.use(VueChartkick, { Chartkick })
 
